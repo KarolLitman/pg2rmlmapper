@@ -1,0 +1,13 @@
+# Nodes
+<"Author01">{"Person","Author"}["name": "Jan"]
+<"Author02">{"Person"}["name": "Marek"]
+<"Author03">{"Person"}["name": "Patryk"]
+<"Author04">{"Person"}["name": "Anna"]
+
+
+
+# Edge
+("Author01")-<"edge01">{"knows"}->("Author02")
+("Author02")-<"edge02">{"knows"}->("Author03")
+("Author03")-<"edge03">{"knows"}->("Author04")
+("Author01")-<"edge04">{"love"}->("Author04")
