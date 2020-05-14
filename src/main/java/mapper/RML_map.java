@@ -1,5 +1,6 @@
 package mapper;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.graph.BlankNodeId;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.sparql.vocabulary.FOAF;
@@ -11,6 +12,7 @@ import vocabulary.PR;
 import vocabulary.RML;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -186,32 +188,32 @@ public class RML_map {
                             }
                             else if(object instanceof ArrayList){
 
-                                //       System.out.println("test");
-                                //      System.out.println("test");
-                                //       System.out.println("test");
+                                Resource blank_node = model.createResource();
 
 
-//                                Seq s = model.createSeq();
+                                blank_node=nestArrayList4(blank_node,model,pom, (ArrayList<Object>) object);
 
-//                                for (Object element : (ArrayList)object) {
-//                                    if(s instanceof ArrayList){
-//                                        s.add(element.toString());
-//                                    }
-//                                }
-//                                model.add(resource, model.createProperty(pom.predicate),s);
 
-                                //nestArrayList(model,resource,pom, (ArrayList<Object>) object);
+                                model.add(resource, model.createProperty(pom.predicate),blank_node);
 
-                                Seq s2 = model.createSeq();
-
-System.out.println((ArrayList<Object>) object);
-
-                                Seq s=nestArrayList3(s2,model,pom, (ArrayList<Object>) object);
-
-                                model.add(resource,model.createProperty(pom.predicate),s);
+//                                Seq s2 = model.createSeq();
+//
+//System.out.println((ArrayList<Object>) object);
+//
+//                                Seq s=nestArrayList3(s2,model,pom, (ArrayList<Object>) object);
+//
+//                                model.add(resource,model.createProperty(pom.predicate),s);
                             }
                             else{
-                                model.add(resource, model.createProperty(pom.predicate),object.toString());
+
+
+                                model.addLiteral(resource, model.createProperty(pom.predicate),object);
+                               // model.add (resource, model.createProperty(pom.predicate), ResourceFactory.createTypedLiteral("2012-03-11", XSDDatatype.XSDdate));
+                               // Calendar c = Calendar.getInstance();
+
+
+
+
 
                             }
                         }
@@ -249,38 +251,40 @@ System.out.println((ArrayList<Object>) object);
     }
 
 
-    void nestArrayList(Model model, Resource resource, predicateObjectMap pom, ArrayList<Object> object){
-        Seq s = model.createSeq();
+    Resource nestArrayList4(Resource r,Model model, predicateObjectMap pom, ArrayList<Object> object){
+
+
+
+        r.addProperty(RDF.type,"http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
+        // Resource
+
+        int i=1;
+
+//        Resource r = model.createResource("a");
+
+
         for (Object element : object) {
             if(element instanceof ArrayList){
 
-                Resource res=model.createSeq();
-                s.add(res);
-                nestArrayList(model,res,pom, (ArrayList<Object>) element);
-            }
-            else{
-                s.add(element.toString());
-            }
-        }
-        model.add(resource, model.createProperty(pom.predicate),s);
-    }
+                Resource res=model.createResource();
+                Resource res2=nestArrayList4(res,model,pom, (ArrayList<Object>) element);
+                // r.addLiteral("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember",res2.as);
+                r.addProperty(model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#_"+i),(RDFNode)(res2));
 
-
-    Seq nestArrayList2(Model model, predicateObjectMap pom, ArrayList<Object> object){
-        Seq s = model.createSeq();
-        for (Object element : object) {
-            if(element instanceof ArrayList){
-
-//                Resource res=model.createSeq();
-                Seq s2=nestArrayList2(model,pom, (ArrayList<Object>) element);
-                s.add(s2);
+                //s.add(s2);
 
             }
             else{
-                s.add(element.toString());
+                //     r.addProperty();
+                r.addLiteral(model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#_"+i),element);
+
+                //                model.add(r, model.createProperty("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember"),element.toString());
+
+                //s.add(element.toString());
             }
+            i++;
         }
-        return s;
+        return r;
 
     }
 
@@ -293,14 +297,25 @@ System.out.println((ArrayList<Object>) object);
                 Seq s2=nestArrayList3(res,model,pom, (ArrayList<Object>) element);
                 s.add(s2);
 
+
+//                model.createl
+
             }
             else{
-                s.add(element.toString());
+
+               // System.out.println("test w RML"+element.getClass());
+
+
+                    s.add(element);
+
+
             }
         }
         return s;
 
     }
+
+
 
     Resource nestSet(Resource r,Model model, predicateObjectMap pom, HashSet<Object> object){
 
@@ -320,12 +335,16 @@ System.out.println((ArrayList<Object>) object);
            // r.addLiteral("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember",res2.as);
             r.addProperty(model.createProperty("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember"),(RDFNode)(res2));
 
+
+
                 //s.add(s2);
 
             }
             else{
-                r.addProperty(model.createProperty("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember"),element.toString());
-//                model.add(r, model.createProperty("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember"),element.toString());
+           //     r.addProperty();
+r.addLiteral(model.createProperty("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember"),element);
+
+                //                model.add(r, model.createProperty("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember"),element.toString());
 
                 //s.add(element.toString());
             }
