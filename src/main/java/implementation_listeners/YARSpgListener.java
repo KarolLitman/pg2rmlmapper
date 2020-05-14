@@ -1,11 +1,17 @@
 package implementation_listeners;// Generated from YARS.g4 by ANTLR 4.7.1
 import com.github.jsonldjava.utils.Obj;
+import org.antlr.v4.runtime.tree.TerminalNode;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.datatypes.xsd.XSDDateTime;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.ResourceFactory;
 import property_graph.YARS;
 import property_graph.edge;
 import property_graph.vertex;
 import parsers_and_listeners.cypher.yarspg.YARSpgBaseListener;
 import parsers_and_listeners.cypher.yarspg.YARSpgParser;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class YARSpgListener extends YARSpgBaseListener {
@@ -33,6 +39,120 @@ public class YARSpgListener extends YARSpgBaseListener {
 	int flag=0;
 
 	Object current;
+
+
+	public Object setValidType(YARSpgParser.Primitive_valueContext ctx){
+
+
+		//System.out.println(ctx.STRING());
+
+		if(ctx.STRING()!=null){
+			String primivite_value=ctx.getText();
+
+			Character c= ctx.getText().charAt(0);
+			if(c.equals('"')){
+				primivite_value=primivite_value.substring(1,primivite_value.length()-1);
+				return primivite_value;
+			}
+
+
+		}
+		else if(ctx.NUMBER()!=null){
+
+			String number=ctx.getText();
+
+			if (isInteger(number)) {
+				return Integer.parseInt(number);
+			}
+			else if (isLong(number)) {
+				return Long.parseLong(number);
+			}
+			else if (isFloat(number)){
+				return Float.parseFloat(number);
+			}
+			else{
+//				if (isDouble(number))
+				return Double.parseDouble(number);
+			}
+
+//			return null;
+
+
+		}
+		else if(ctx.DATETYPE()!=null){
+
+
+
+			if(ctx.getText().contains("T")){
+				return ResourceFactory.createTypedLiteral(ctx.getText(), XSDDatatype.XSDdateTimeStamp);
+			}
+			else if(ctx.getText().contains(":")){
+				return ResourceFactory.createTypedLiteral(ctx.getText(), XSDDatatype.XSDtime );
+			}
+			else{
+				return ResourceFactory.createTypedLiteral(ctx.getText(), XSDDatatype.XSDdate);
+			}
+
+
+			//System.out.println(ctx.getText());
+
+			//System.out.println(ctx.DATETYPE());
+
+			//System.out.println(ctx.getChild(0).getChild(0));
+
+//			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+//			Date date = sdf.parse(ctx.getText());
+//			Calendar cal = Calendar.getInstance();
+//			cal.setTime(date);
+
+
+		}
+		else if(ctx.BOOL()!=null){
+			boolean primitive_value=Boolean.parseBoolean(ctx.getText());
+			//System.out.println("test "+primitive_value);
+			return primitive_value;
+		}
+
+
+		return null;
+	}
+
+
+	public static boolean isInteger(String s) {
+		try {
+			Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean isDouble(String s) {
+		try {
+			Double.parseDouble(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean isFloat(String s) {
+		try {
+			Float.parseFloat(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean isLong(String s) {
+		try {
+			Long.parseLong(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
 
 	public void enterYarspg(YARSpgParser.YarspgContext ctx){
 
@@ -165,17 +285,61 @@ public class YARSpgListener extends YARSpgBaseListener {
 	public void exitValue(YARSpgParser.ValueContext ctx){};
 	public void enterPrimitive_value(YARSpgParser.Primitive_valueContext ctx){
 
-		Character c= ctx.getText().charAt(0);
-		String primivite_value=ctx.getText();
-	if(c.equals('"')){
-		primivite_value=primivite_value.substring(1,primivite_value.length()-1);
-		}
+
+
+			String primivite_value=ctx.getText();
+			Character c= ctx.getText().charAt(0);
+			if(c.equals('"')){
+				primivite_value=primivite_value.substring(1,primivite_value.length()-1);
+			}
+
+//		if(ctx.STRING()!=null){
+//			String primivite_value=ctx.getText();
+//
+
+//
+//		}
+//		else if(ctx.NUMBER()!=null){
+//
+//			String number=ctx.getText();
+//
+//			if (isInteger(number)) {
+//				//parse Int
+//			}
+//			else if (isLong(number)) {
+//				//parse Int
+//			}
+//			else if (isFloat(number)){
+//				//parse Double
+//			}
+//			else if (isDouble(number)){
+//				//parse Double
+//			}
+//
+//
+//			double primitive_value=Double.parseDouble(ctx.getText());
+//			System.out.println("test "+primitive_value);
+//
+//
+//		}
+//		else if(ctx.DATETYPE()!=null){
+//
+//			ctx.DATETYPE();
+//		}
+//		else if(ctx.BOOL()!=null){
+//			boolean primitive_value=Boolean.parseBoolean(ctx.getText());
+//			System.out.println("test "+primitive_value);
+//		}
+
+
+
+
 
 		if(flag==0){
-			properties.put(key,primivite_value);
+			properties.put(key,setValidType(ctx));
 		}
 		else if(flag==1){
-			stackSet.lastElement().add(primivite_value);
+			stackSet.lastElement().add(setValidType(ctx));
 			//nestSet.add(primivite_value);
 		}
 		else if(flag==2){
@@ -183,14 +347,14 @@ public class YARSpgListener extends YARSpgBaseListener {
 
 		//System.out.println(stack.firstElement());
 			System.out.println(stack.firstElement());
-			System.out.println(primivite_value);
-			stack.lastElement().add(primivite_value);
+			System.out.println(setValidType(ctx));
+			stack.lastElement().add(setValidType(ctx));
 
 
 //			nestArray.add(primivite_value);
 		}
 		else if(flag==3){
-			nestMap.put(key,primivite_value);
+			nestMap.put(key,setValidType(ctx));
 
 		}
 

@@ -8,7 +8,7 @@
                 rml:logicalSource [
                 rml:source "People.yars";
                 rml:referenceFormulation pr:CypherMatch;
-				rml:iterator "(:Person {name: 'Jan'})-[:knows*2]->(c:Person)"];
+				rml:iterator "(c:Person)"];
 
   rr:subjectMap [
     rr:template "http://osoba.pl/{id}";
@@ -16,7 +16,48 @@
   ];
 
   rr:predicateObjectMap [
-    rr:predicate foaf:firstName;
+    rr:predicate foaf:lista;
     rr:objectMap [
-      rml:reference "name";
-      ]].
+      rml:reference "list";
+      ]];
+	  
+	  
+  rr:predicateObjectMap [
+    rr:predicate foaf:hashmap;
+    rr:objectMap [
+      rml:reference "tescik";
+      ]];
+	  
+  rr:predicateObjectMap [
+    rr:predicate foaf:set;
+    rr:objectMap [
+      rml:reference "set";
+      ]];
+	  
+	  
+	  rr:predicateObjectMap [
+    rr:predicate foaf:primitive;
+    rr:objectMap [
+      rml:reference "primitive";
+      ]];  	  
+	
+	  rr:predicateObjectMap [
+    rr:predicate foaf:bool;
+    rr:objectMap [
+      rml:reference "booltype";
+      ]]; 
+	
+	  rr:predicateObjectMap [
+    rr:predicate foaf:date;
+    rr:objectMap [
+      rml:reference "date";
+      ]]; 
+
+
+	  rr:predicateObjectMap [
+    rr:predicate foaf:time;
+    rr:objectMap [
+      rml:reference "time";
+      ]]; 	  
+	  
+	  

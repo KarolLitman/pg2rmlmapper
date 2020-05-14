@@ -1,5 +1,5 @@
 # Nodes
-<"Author01">{"Person","Author"}["name": "Jan"]
+<"Author01">{"Person","Author"}["date": 1999-01-01,"time": 11:15:32,"booltype":true,"primitive":[true, true, 2.0],"name": "Jan", "list": ["el1",["el2","el3"], "el4",[[["el5","el6"],["el7", "el8"]]]],"set": {true,{20,1.5}, "el12",{{{"el13","el14"},{"el15", "el16"}}}}, "struct": {"key1":"value2","key2":{"key3":"value5","key6":{"key7":"value8","key9":"value10","key11":"value12"},"key13":"value14"},"key15":{"key16":"value17","key18":"value19","key20":"value21"}}]
 <"Author02">{"Person"}["name": "Marek"]
 <"Author03">{"Person"}["name": "Patryk"]
 <"Author04">{"Person"}["name": "Anna"]
