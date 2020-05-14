@@ -1,4 +1,5 @@
 package implementation_listeners;// Generated from YARS.g4 by ANTLR 4.7.1
+import com.github.jsonldjava.utils.Obj;
 import property_graph.YARS;
 import property_graph.edge;
 import property_graph.vertex;
@@ -16,12 +17,18 @@ public class YARSpgListener extends YARSpgBaseListener {
 	Map<String, Object> properties;
 	String key;
 
+
+	Stack<ArrayList<Object>> stack=new Stack<>();
+	Stack<Set<Object>> stackSet=new Stack<>();
+
 	//String keymap;
 
 
 	Set<Object> nestSet;
 	Map<String,Object> nestMap;
 	ArrayList<Object> nestArray;
+
+
 	int i=0;
 	int flag=0;
 
@@ -168,10 +175,19 @@ public class YARSpgListener extends YARSpgBaseListener {
 			properties.put(key,primivite_value);
 		}
 		else if(flag==1){
-			nestSet.add(primivite_value);
+			stackSet.lastElement().add(primivite_value);
+			//nestSet.add(primivite_value);
 		}
 		else if(flag==2){
-			nestArray.add(primivite_value);
+
+
+		//System.out.println(stack.firstElement());
+			System.out.println(stack.firstElement());
+			System.out.println(primivite_value);
+			stack.lastElement().add(primivite_value);
+
+
+//			nestArray.add(primivite_value);
 		}
 		else if(flag==3){
 			nestMap.put(key,primivite_value);
@@ -188,12 +204,16 @@ public class YARSpgListener extends YARSpgBaseListener {
 	};
 	public void enterSet(YARSpgParser.SetContext ctx){
 		nestSet = new HashSet<>();
+
+
 		if (current instanceof HashMap){
 			((HashMap) current).put(key,nestSet);
 		}
-		if (current instanceof HashSet){
-			((HashSet) current).add(nestSet);
+		else{
+			stackSet.lastElement().add(nestSet);
 		}
+		stackSet.push(nestSet);
+
 		flag=1;
 		current=nestSet;
 		i++;
@@ -202,6 +222,8 @@ public class YARSpgListener extends YARSpgBaseListener {
 
 	};
 	public void exitSet(YARSpgParser.SetContext ctx){
+		stackSet.pop();
+
 //		System.out.println();
 //		System.out.println(nestSet);
 //		System.out.println();
@@ -213,15 +235,19 @@ public class YARSpgListener extends YARSpgBaseListener {
 
 	};
 	public void enterList(YARSpgParser.ListContext ctx){
+
+
 		nestArray = new ArrayList<>();
 
-		//System.out.println(current.getClass());
+
 		if (current instanceof HashMap){
 			((HashMap) current).put(key,nestArray);
 		}
-		if (current instanceof ArrayList){
-			((ArrayList) current).add(nestArray);
+		else{
+			stack.lastElement().add(nestArray);
 		}
+		stack.push(nestArray);
+
 		flag=2;
 		current=nestArray;
 		i++;
@@ -229,9 +255,11 @@ public class YARSpgListener extends YARSpgBaseListener {
 	};
 	public void exitList(YARSpgParser.ListContext ctx){
 		i--;
+		stack.pop();
 		if(i==0){
 			flag=0;
 			current=properties;
+			//System.out.println(properties);
 		}
 	};
 	public void enterStruct(YARSpgParser.StructContext ctx){
