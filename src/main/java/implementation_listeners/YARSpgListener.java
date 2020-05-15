@@ -26,12 +26,13 @@ public class YARSpgListener extends YARSpgBaseListener {
 
 	Stack<ArrayList<Object>> stack=new Stack<>();
 	Stack<Set<Object>> stackSet=new Stack<>();
+	Stack<HashMap<String,Object>> stackMap=new Stack<>();
 
 	//String keymap;
 
 
 	Set<Object> nestSet;
-	Map<String,Object> nestMap;
+	HashMap<String,Object> nestMap;
 	ArrayList<Object> nestArray;
 
 
@@ -354,7 +355,9 @@ public class YARSpgListener extends YARSpgBaseListener {
 //			nestArray.add(primivite_value);
 		}
 		else if(flag==3){
-			nestMap.put(key,setValidType(ctx));
+			stackMap.lastElement().put(key,setValidType(ctx));
+
+			//nestMap.put(key,setValidType(ctx));
 
 		}
 
@@ -374,6 +377,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 			((HashMap) current).put(key,nestSet);
 		}
 		else{
+			//stackSet.lastElement().add(nestSet);
 			stackSet.lastElement().add(nestSet);
 		}
 		stackSet.push(nestSet);
@@ -427,22 +431,33 @@ public class YARSpgListener extends YARSpgBaseListener {
 		}
 	};
 	public void enterStruct(YARSpgParser.StructContext ctx){
+
 		nestMap = new HashMap<>();
 
-		//System.out.println(current.getClass());
-		if (current instanceof HashMap){
+//		if(stackMap.isEmpty()){
+//
+//		}
+
+		if (current instanceof HashMap && stackMap.isEmpty()){
 			((HashMap) current).put(key,nestMap);
 		}
+		else{
+			stackMap.lastElement().put(key,nestMap);
+		}
+		stackMap.push(nestMap);
+
 		flag=3;
 		current=nestMap;
 		i++;
 
-	};
+	}
 	public void exitStruct(YARSpgParser.StructContext ctx){
 		i--;
+		stackMap.pop();
 		if(i==0){
 			flag=0;
 			current=properties;
+			//System.out.println(properties);
 		}
 	};
 

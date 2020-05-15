@@ -11,10 +11,7 @@ import property_graph.vertex;
 import vocabulary.PR;
 import vocabulary.RML;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,6 +81,8 @@ public class RML_map {
 //                    System.out.println(subjectMap.template.replace("{id}", ((element) o).getId()));
                 resource = model.createResource(template.replace("{id}", ((element) o).getId()));
             } else if (curly_brackets.equals("label")) {
+
+
                 //TODO
                 //resource=model.createResource(subjectMap.template.replace("{label}",((element) o).getLabels()));
             } else {
@@ -159,7 +158,21 @@ public class RML_map {
                         if(((literal) pom.object).language==null){
                          //   System.out.println(object.getClass());
                             //TODO moze pozniej zmienic lepiej
-                            if(object instanceof HashSet){
+                            if(object instanceof HashSet && ((literal) pom.object).reference.equals("label")){
+
+                                for (String element : (HashSet<String>) object) {
+                                    model.add(resource, model.createProperty(pom.predicate),element);
+                                }
+
+
+
+
+                                //blank_node.addProperty(model.createProperty("bla"),);
+
+
+
+                            }
+                            else if(object instanceof HashSet){
 
                                 //       System.out.println("test");
                                 //      System.out.println("test");
@@ -192,6 +205,24 @@ public class RML_map {
 
 
                                 blank_node=nestArrayList4(blank_node,model,pom, (ArrayList<Object>) object);
+
+
+                                model.add(resource, model.createProperty(pom.predicate),blank_node);
+
+//                                Seq s2 = model.createSeq();
+//
+//System.out.println((ArrayList<Object>) object);
+//
+//                                Seq s=nestArrayList3(s2,model,pom, (ArrayList<Object>) object);
+//
+//                                model.add(resource,model.createProperty(pom.predicate),s);
+                            }
+                            else if(object instanceof HashMap){
+
+                                Resource blank_node = model.createResource();
+
+
+                                blank_node=nestStruct(blank_node,model,pom, (HashMap<String,Object>) object);
 
 
                                 model.add(resource, model.createProperty(pom.predicate),blank_node);
@@ -315,6 +346,47 @@ public class RML_map {
 
     }
 
+
+    Resource nestStruct(Resource r,Model model, predicateObjectMap pom, HashMap<String, Object> object){
+
+
+
+      //  r.addProperty(RDF.type,"http://www.ontologydesignpatterns.org/cp/owl/set.owl#Set");
+        // Resource
+
+//        Resource r = model.createResource("a");
+
+
+        for(Map.Entry<String, Object> element : object.entrySet()) {
+         //   for (Object element : object) {
+
+
+            if(element.getValue() instanceof HashMap){
+
+
+
+                Resource res=model.createResource();
+                Resource res2=nestStruct(res,model,pom, (HashMap<String, Object>) element.getValue());
+                r.addProperty(model.createProperty("http://www.example.org/"+element.getKey()),(RDFNode)(res2));
+
+
+
+                //s.add(s2);
+
+            }
+            else{
+                //     r.addProperty();
+
+                r.addLiteral(model.createProperty("http://www.example.org/"+element.getKey()),element.getValue());
+
+                //                model.add(r, model.createProperty("http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember"),element.toString());
+
+                //s.add(element.toString());
+            }
+        }
+        return r;
+
+    }
 
 
     Resource nestSet(Resource r,Model model, predicateObjectMap pom, HashSet<Object> object){
