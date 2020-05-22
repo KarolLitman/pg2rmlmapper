@@ -152,6 +152,15 @@ public class mapper {
 
 
             }
+            else if(predicate.equals(PR.path)){
+
+
+
+           // rml.method
+
+
+
+            }
             else if(predicate.equals(RR.predicateObjectMap)){
 
                 predicateObjectMap pom=new predicateObjectMap();
@@ -292,6 +301,11 @@ public class mapper {
 
 
         //System.out.println(cypher.c.traverse(yars2.y));
+
+
+
+        path p=new path(yars2.y);
+        p.traverse();
 
     }
 

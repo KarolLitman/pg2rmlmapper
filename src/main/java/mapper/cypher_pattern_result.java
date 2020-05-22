@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class cypher_pattern_result {
 
-    ArrayList<element> edges;
-    ArrayList<element> vertexes;
+    ArrayList<element> edges; //edges to print with variable
+    ArrayList<element> vertexes; //vertexes to print with variable
     ArrayList<vertex> vertexesToNextTraverse;
 
     public cypher_pattern_result(ArrayList<element> vertexes,ArrayList<element> edges, ArrayList<vertex> vertexesToNextTraverse) {

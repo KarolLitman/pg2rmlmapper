@@ -19,6 +19,17 @@ public class PR {
     public static final Property propEdgeSelector;
     public static final Property CypherMatch;
 
+    public static final Property PG2RMLPath;
+    public static final Property path;
+    public static final Property edgePath;
+    public static final Property inversePath;
+    public static final Property sequencePath;
+    public static final Property alternativePath;
+    public static final Property zeroOrMorePath;
+    public static final Property oneOrMorePath;
+    public static final Property optionalPath;
+    public static final Property minMaxPath;
+
 
 
     public PR() {
@@ -42,6 +53,16 @@ public class PR {
         propNodeSelector = M_MODEL.createProperty("http://x/propNodeSelector");
         propEdgeSelector = M_MODEL.createProperty("http://x/propEdgeSelector");
 
+        PG2RMLPath = M_MODEL.createProperty("http://x/PG2RMLPath");
+        path = M_MODEL.createProperty("http://x/path");
+        edgePath = M_MODEL.createProperty("http://x/edgePath");
+        inversePath = M_MODEL.createProperty("http://x/inversePath");
+        sequencePath = M_MODEL.createProperty("http://x/sequencePath");
+        alternativePath = M_MODEL.createProperty("http://x/alternativePath");
+        zeroOrMorePath = M_MODEL.createProperty("http://x/zeroOrMorePath");
+        oneOrMorePath = M_MODEL.createProperty("http://x/oneOrMorePath");
+        optionalPath = M_MODEL.createProperty("http://x/optionalPath");
+        minMaxPath = M_MODEL.createProperty("http://x/minMaxPath");
 
 
 

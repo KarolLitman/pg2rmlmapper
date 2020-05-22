@@ -52,8 +52,21 @@ public class RML_map {
                       // return null;
 
                    }
-        }
 
+        }
+        else if(referenceFormulation.equals(PR.PG2RMLPath.toString())){
+            System.out.println("wykonalo sie");
+            if(method instanceof path){
+                return null;
+               // return ((path) method).find();
+            }
+            else{
+                System.out.println("Not found predicate "+ RML.iterator);
+                // return null;
+
+            }
+
+        }
 
 
         return null;
