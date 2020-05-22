@@ -1,14 +1,6 @@
-package mapper;
+package mapper.methods.cypher;
 
-import implementation_listeners.CypherListener;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import parsers_and_listeners.cypher.CypherLexer;
-import parsers_and_listeners.cypher.CypherParser;
 import property_graph.*;
-import sun.security.provider.certpath.Vertex;
 
 import java.util.*;
 
@@ -49,7 +41,7 @@ public class cypher {
     }
 
 
-    ArrayList <element> traverse(){
+    public ArrayList <element> traverse(){
 
 
         cypher_pattern_result cpr;

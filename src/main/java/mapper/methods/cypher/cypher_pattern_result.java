@@ -1,5 +1,6 @@
-package mapper;
+package mapper.methods.cypher;
 
+import mapper.mapper;
 import property_graph.YARS;
 import property_graph.edge;
 import property_graph.element;

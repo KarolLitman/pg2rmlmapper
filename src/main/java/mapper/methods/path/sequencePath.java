@@ -1,18 +1,19 @@
-package mapper;
+package mapper.methods.path;
 
+import mapper.mapper;
 import property_graph.element;
 
 import java.util.ArrayList;
 
 public class sequencePath {
-    ArrayList<edgePaths> collection;
+    ArrayList<minMaxQuantifier> collection;
 
     public sequencePath(String method) {
         collection=new ArrayList<>();
 
     }
 
-    void addEdge(edgePaths ep){
+    void addEdge(minMaxQuantifier ep){
         collection.add(ep);
     }
 

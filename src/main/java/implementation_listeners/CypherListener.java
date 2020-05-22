@@ -1,7 +1,7 @@
 // Generated from Cypher.g4 by ANTLR 4.7.2
 package implementation_listeners;
-import mapper.PatternElementChain;
-import mapper.cypher;
+import mapper.methods.cypher.PatternElementChain;
+import mapper.methods.cypher.cypher;
 import parsers_and_listeners.cypher.CypherBaseListener;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

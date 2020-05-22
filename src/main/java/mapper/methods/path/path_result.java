@@ -1,5 +1,6 @@
-package mapper;
+package mapper.methods.path;
 
+import mapper.mapper;
 import property_graph.element;
 import property_graph.vertex;
 

@@ -1,6 +1,5 @@
-package mapper;
+package mapper.methods.path;
 
-import org.apache.jena.tdb.store.Hash;
 import property_graph.YARS;
 import property_graph.edge;
 import property_graph.element;
@@ -13,7 +12,7 @@ import java.util.Map;
 
 public class path {
 
-    ArrayList<edgePaths> edgePathsSequence;
+    ArrayList<minMaxQuantifier> edgePathsSequence;
     YARS property_graph;
     ArrayList<pair> results;
 
@@ -28,8 +27,8 @@ public class path {
         hs2.add("love");
 
 
-        edgePathsSequence.add(new edgePaths(hs,3,3));
-        edgePathsSequence.add(new edgePaths(hs2,1,10));
+        edgePathsSequence.add(new minMaxQuantifier(hs,0,10));
+       // edgePathsSequence.add(new edgePaths(hs2,0,10));
 
         this.property_graph=property_graph;
 
@@ -42,7 +41,7 @@ public class path {
 
 
 
-    ArrayList <pair> traverse(){
+    public ArrayList <pair> traverse(){
         ArrayList<pair> cpr;
 
 
@@ -70,50 +69,18 @@ public class path {
 //System.out.println(new_vertexes);
 int j=0;
      //   boolean beginMinEqualsZero=0;
-        for (edgePaths pec_one: this.edgePathsSequence){
+        for (minMaxQuantifier pec_one: this.edgePathsSequence){
             System.out.println(pec_one.getLabels());
 
 //            if(pec_one.getMin()>0){
 //                minEqualsZero++;
 //            }
 
-            for(int i=0;i<pec_one.getMax();i++){
-                temp=new ArrayList<>();
+           // System.out.println("przed"+new_vertexes);
 
-                System.out.println(i);
+            new_vertexes=getPairsFromOneOperation(new_vertexes,pec_one);
 
-                for(pair p:new_vertexes){
-
-                    cpr=traverseVertexToVertexes(p,pec_one);
-                    temp.addAll(cpr);
-                    if(i+1>=pec_one.getMin()){
-                        results.addAll(cpr);
-                        //results.addAll(cpr.edges);
-                    }
-                }
-
-//                if(pec_one.getMax()-pec_one.getMin()>0&&(j!=0||pec_one.getMin()==0)){
-//                    // results.addAll(cpr.vertexes);
-//                    // results.addAll(cpr.edges);
-//                    temp.addAll(new_vertexes);
-//                    System.out.println("test"+(pec_one.getMax()-pec_one.getMin()));
-//                }
-
-
-                if(pec_one.getMin()==0){
-                    // results.addAll(cpr.vertexes);
-                    // results.addAll(cpr.edges);
-                    temp.addAll(new_vertexes);
-                    results.addAll(new_vertexes);
-                   // System.out.println("test"+(pec_one.getMax()-pec_one.getMin()));
-                }
-                j++;
-
-                new_vertexes=temp;
-                //System.out.println(new_vertexes);
-
-
-            }
+            //System.out.println("po"+new_vertexes);
 
 
 //dodana petla
@@ -123,11 +90,61 @@ int j=0;
             j++;
 
 
-
         }
 
 
-System.out.println(results);
+System.out.println(new_vertexes);
+        return new_vertexes;
+    }
+
+
+    ArrayList<pair> getPairsFromOneOperation(ArrayList<pair> new_vertexes, minMaxQuantifier pec_one){
+
+        ArrayList<pair> results=new ArrayList<>();
+        ArrayList<pair> temp=new ArrayList<>();
+        ArrayList<pair> cpr;
+        ArrayList<path_result> path_results=new ArrayList<>();
+
+
+
+        for(int i=0;i<pec_one.getMax();i++){
+            temp=new ArrayList<>();
+
+            System.out.println(i);
+
+            for(pair p:new_vertexes){
+
+                cpr=traverseVertexToVertexes(p,pec_one);
+                temp.addAll(cpr);
+                if(i+1>=pec_one.getMin()){
+                    results.addAll(cpr);
+                    //results.addAll(cpr.edges);
+                }
+            }
+
+//                if(pec_one.getMax()-pec_one.getMin()>0&&(j!=0||pec_one.getMin()==0)){
+//                    // results.addAll(cpr.vertexes);
+//                    // results.addAll(cpr.edges);
+//                    temp.addAll(new_vertexes);
+//                    System.out.println("test"+(pec_one.getMax()-pec_one.getMin()));
+//                }
+
+
+            if(i==0&&pec_one.getMin()==0){
+                // results.addAll(cpr.vertexes);
+                // results.addAll(cpr.edges);
+                temp.addAll(new_vertexes);
+                results.addAll(new_vertexes);
+                // System.out.println("test"+(pec_one.getMax()-pec_one.getMin()));
+            }
+           // j++;
+
+            new_vertexes=temp;
+            //System.out.println(new_vertexes);
+
+
+        }
+
         return results;
     }
 
@@ -137,7 +154,7 @@ System.out.println(results);
 
 
 
-    ArrayList<pair> traverseVertexToVertexes (pair p, edgePaths pec_one){
+    ArrayList<pair> traverseVertexToVertexes (pair p, minMaxQuantifier pec_one){
         ArrayList<vertex> vertexesToNextTraverse=new ArrayList<>();
         ArrayList<element> edges=new ArrayList<>();
         ArrayList<element> vertexes=new ArrayList<>();
@@ -178,7 +195,7 @@ System.out.println(results);
 
 
 
-    Boolean cmp(edgePaths fromPaths, element fromYARS) {
+    Boolean cmp(minMaxQuantifier fromPaths, element fromYARS) {
         boolean hasLabel=false;
         for (String label : fromPaths.getLabels()) {
 

@@ -2,14 +2,17 @@ package mapper;
 
 import implementation_listeners.YARSpgListener;
 import implementation_listeners.CypherListener;
+import mapper.methods.path.path;
+import mapper.methods.selector.selectors;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.jena.rdf.model.*;
-import vocabulary.PR;
-import vocabulary.RML;
-import vocabulary.RR;
+import vocabularies.PR;
+import vocabularies.RML;
+import vocabularies.RR;
 import parsers_and_listeners.cypher.yarspg.YARSpgLexer;
 import parsers_and_listeners.cypher.yarspg.YARSpgParser;
 import parsers_and_listeners.cypher.CypherLexer;
@@ -31,7 +34,7 @@ public class mapper {
         ParseTree tree = parser.yarspg();
         YARSpgListener yars2 = new YARSpgListener();
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(yars2, tree);
+        walker.walk((ParseTreeListener) yars2, tree);
 
 
 

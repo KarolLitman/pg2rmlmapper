@@ -1,9 +1,8 @@
-package mapper;
+package mapper.methods.selector;
 
 import property_graph.YARS;
 import property_graph.edge;
 import property_graph.vertex;
-import vocabulary.PR;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,7 +148,7 @@ return vertexList;
         ObjectList.addAll(getEdgebyPropSelector(prop));
         return ObjectList;
     }
-    Object find(){
+    public Object find(){
 
      //   System.out.println(methodSelector);
 

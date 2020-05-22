@@ -1,5 +1,6 @@
-package mapper;
+package mapper.methods.cypher;
 
+import mapper.mapper;
 import property_graph.edge;
 import property_graph.vertex;
 

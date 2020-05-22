@@ -1,15 +1,13 @@
 package mapper;
 
-import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.graph.BlankNodeId;
+import mapper.methods.cypher.cypher;
+import mapper.methods.path.path;
+import mapper.methods.selector.selectors;
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.RDF;
-import property_graph.edge;
 import property_graph.element;
-import property_graph.vertex;
-import vocabulary.PR;
-import vocabulary.RML;
+import vocabularies.PR;
+import vocabularies.RML;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -455,36 +453,6 @@ r.addLiteral(model.createProperty("http://www.ontologydesignpatterns.org/cp/owl/
 
 }
 
-class literal{
-    String reference;
-    String language;
-    String datatype;
-    literal(){}
-
-    @Override
-    public String toString() {
-        return "literal{" +
-                "reference='" + reference + '\'' +
-                ", language='" + language + '\'' +
-                ", datatype='" + datatype + '\'' +
-                '}';
-    }
-}
-
-class subjectMap{
-
-    String template;
-    List<String> classs;
-
-    subjectMap(){
-        classs=new ArrayList<>();
-    }
-}
-
-
-
-
-
 
 //class objectMap{
 //
@@ -508,31 +476,3 @@ class subjectMap{
 //    }
 //}
 
-class predicateObjectMap{
-    String predicate;
-    Object object;
-//    String reference;
-//    String langtag;
-//    String datatype;
-//    String template;
-//    predicateObjectMap(literal l){
-//        object=l;
-//    }
-//    predicateObjectMap(String template){
-//        object=template;
-//    }
-    @Override
-    public String toString() {
-        return "predicateObjectMap{" +
-                "predicate='" + predicate + '\'' +
-                ",Object=" + object +
-                '}';
-    }
-
-    public void setObject(literal l) {
-        this.object = l;
-    }
-    public void setObject(String template) {
-        this.object = template;
-    }
-}
