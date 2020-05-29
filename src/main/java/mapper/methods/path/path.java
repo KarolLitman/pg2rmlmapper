@@ -16,18 +16,27 @@ public class path {
     YARS property_graph;
     ArrayList<pair> results;
 
+    public ArrayList<minMaxQuantifier> getEdgePathsSequence() {
+        return edgePathsSequence;
+    }
+
+    public void setEdgePathsSequence(ArrayList<minMaxQuantifier> edgePathsSequence) {
+        this.edgePathsSequence = edgePathsSequence;
+    }
+
     public path(YARS property_graph){
         edgePathsSequence=new ArrayList<>();
 
 
-        HashSet<String> hs=new HashSet<>();
-        hs.add("knows");
+//        HashSet<String> hs=new HashSet<>();
+//        hs.add("knows");
+//
+//        HashSet<String> hs2=new HashSet<>();
+//        hs2.add("love");
+//
+//       edgePathsSequence.add(new minMaxQuantifier(hs,"inversePath"));
 
-        HashSet<String> hs2=new HashSet<>();
-        hs2.add("love");
-
-
-        edgePathsSequence.add(new minMaxQuantifier(hs,0,10));
+        //edgePathsSequence.add(new minMaxQuantifier(hs,0,10));
        // edgePathsSequence.add(new edgePaths(hs2,0,10));
 
         this.property_graph=property_graph;
@@ -57,7 +66,6 @@ public class path {
         for(Map.Entry<String, vertex> vertexes : property_graph.vertexMap.entrySet()) {
             vertex vertex = vertexes.getValue();
 
-            System.out.println("yars"+vertex);
 
 
 
@@ -76,6 +84,9 @@ int j=0;
 //                minEqualsZero++;
 //            }
 
+
+            System.out.println("czy wystepuje pec"+pec_one);
+
            // System.out.println("przed"+new_vertexes);
 
             new_vertexes=getPairsFromOneOperation(new_vertexes,pec_one);
@@ -90,9 +101,9 @@ int j=0;
             j++;
 
 
+
         }
-
-
+System.out.println(this.edgePathsSequence);
 System.out.println(new_vertexes);
         return new_vertexes;
     }
@@ -174,12 +185,24 @@ System.out.println(new_vertexes);
 
 //            System.out.println("testowy"+pec_one.RelationshipPattern);
 
-            if(cmp(pec_one,e)){
 
-                vertexes_pair.add(new pair(p.getVertex_start(),e.getSecondVertex(p.vertex_end)));
-                   // vertexesToNextTraverse.add(e.getSecondVertex(vertex));
+            if(pec_one.method.equals("inversePath")){
+                if(!cmp(pec_one,e)){
+
+                    vertexes_pair.add(new pair(p.getVertex_start(),e.getSecondVertex(p.vertex_end)));
+                    // vertexesToNextTraverse.add(e.getSecondVertex(vertex));
 
                 }
+            }
+            else{
+                if(cmp(pec_one,e)){
+
+                    vertexes_pair.add(new pair(p.getVertex_start(),e.getSecondVertex(p.vertex_end)));
+                    // vertexesToNextTraverse.add(e.getSecondVertex(vertex));
+
+                }
+            }
+
             }
         return vertexes_pair;
 

@@ -6,7 +6,7 @@ import property_graph.vertex;
 
 import java.util.ArrayList;
 
-public class path_result {
+class path_result {
 
     ArrayList<element> vertexes; //vertexes to print with variable
     ArrayList<vertex> vertexesToNextTraverse;

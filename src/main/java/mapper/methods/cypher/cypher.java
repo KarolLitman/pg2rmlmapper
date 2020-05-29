@@ -59,7 +59,6 @@ public class cypher {
         for(Map.Entry<String, vertex> vertexes : property_graph.vertexMap.entrySet()) {
             vertex vertex = vertexes.getValue();
 
-System.out.println("yars"+vertex);
 
             if (cmp(this.nodePattern, vertex)) {
 

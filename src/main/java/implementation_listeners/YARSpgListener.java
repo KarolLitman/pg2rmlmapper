@@ -347,8 +347,8 @@ public class YARSpgListener extends YARSpgBaseListener {
 
 
 		//System.out.println(stack.firstElement());
-			System.out.println(stack.firstElement());
-			System.out.println(setValidType(ctx));
+		//	System.out.println(stack.firstElement());
+		//	System.out.println(setValidType(ctx));
 			stack.lastElement().add(setValidType(ctx));
 
 

@@ -5,7 +5,7 @@ import property_graph.element;
 
 import java.util.ArrayList;
 
-public class sequencePath {
+class sequencePath {
     ArrayList<minMaxQuantifier> collection;
 
     public sequencePath(String method) {

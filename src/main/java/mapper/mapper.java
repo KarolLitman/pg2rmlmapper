@@ -2,6 +2,7 @@ package mapper;
 
 import implementation_listeners.YARSpgListener;
 import implementation_listeners.CypherListener;
+import mapper.methods.path.minMaxQuantifier;
 import mapper.methods.path.path;
 import mapper.methods.selector.selectors;
 import org.antlr.v4.runtime.CharStreams;
@@ -10,6 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.jena.rdf.model.*;
+import org.apache.jena.util.iterator.ExtendedIterator;
 import vocabularies.PR;
 import vocabularies.RML;
 import vocabularies.RR;
@@ -19,6 +21,7 @@ import parsers_and_listeners.cypher.CypherLexer;
 import parsers_and_listeners.cypher.CypherParser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -158,9 +161,52 @@ public class mapper {
             else if(predicate.equals(PR.path)){
 
 
+                System.out.println("testttttttte");
 
-           // rml.method
+                Resource blank_node = object.asResource();
 
+
+                StmtIterator iter2 = blank_node.listProperties();
+                Statement stmt2      = iter2.nextStatement();
+
+                System.out.println("predykat"+stmt2.getPredicate().toString());
+                System.out.println("obiekt"+stmt2.getObject());
+
+
+                path p=new path(yars2.y);
+
+
+                pathPredicateSupport(p,stmt2);
+
+
+
+//tutaj dodac pathpredicatesupport
+
+//                Resource blank_node2 = stmt2.getObject().asResource();
+//                StmtIterator iter3 = blank_node2.listProperties();
+//                Statement stmt3      = iter3.nextStatement();
+//
+//                System.out.println("predykat"+stmt3.getPredicate().toString());
+//                System.out.println("obiekt"+stmt3.getObject().asResource());
+//
+//
+
+//                Resource list = stmt2.getObject().asResource();
+//                RDFList rdfList = list.as( RDFList.class );
+//                ExtendedIterator<RDFNode> items = rdfList.iterator();
+//                while ( items.hasNext() ) {
+//                  //  Resource item = items.next().asResource();
+//
+//                    System.out.println(items.next());
+////                    RDFNode value1 = item.getRequiredProperty( myitemvalue1 ).getObject();
+////                    RDFNode value2 = item.getRequiredProperty( myitemvalue2 ).getObject();
+//                   // System.out.println( item );
+//                }
+
+                // rml.method=
+
+
+                rml.method=p;
 
 
             }
@@ -307,13 +353,126 @@ public class mapper {
 
 
 
-        path p=new path(yars2.y);
-        p.traverse();
 
     }
 
 
 
+
+static void pathPredicateSupport(path p, Statement stmt2){
+    switch(stmt2.getPredicate().toString()) {
+        case "http://x/alternativePath":
+
+
+            Resource list = stmt2.getObject().asResource();
+            RDFList rdfList = list.as( RDFList.class );
+            ExtendedIterator<RDFNode> items = rdfList.iterator();
+            while ( items.hasNext() ) {
+
+                RDFNode rdfn=items.next();
+                if (rdfn.canAs(Literal.class)) {
+
+                    String item=rdfn.asLiteral().getString();
+                    System.out.println("testttttttttttttt");
+
+
+                    HashSet<String> hsSimple=new HashSet<>();
+                    hsSimple.add(item);
+
+                    p.getEdgePathsSequence().add(new minMaxQuantifier(hsSimple,"http://x/edgePath"));
+
+                }
+                else{
+
+                }
+
+
+//                    System.out.println(items.next());
+//                    RDFNode value1 = item.getRequiredProperty( myitemvalue1 ).getObject();
+//                    RDFNode value2 = item.getRequiredProperty( myitemvalue2 ).getObject();
+                // System.out.println( item );
+            }
+
+
+            break;
+        case "http://x/sequencePath":
+
+
+            Resource list2 = stmt2.getObject().asResource();
+            RDFList rdfList2 = list2.as( RDFList.class );
+            ExtendedIterator<RDFNode> items2 = rdfList2.iterator();
+            while ( items2.hasNext() ) {
+
+                RDFNode rdfn2=items2.next();
+
+
+
+                if (rdfn2.canAs(Literal.class)) {
+
+                    String item=rdfn2.asLiteral().getString();
+                    System.out.println(item);
+
+                    HashSet<String> hsSimple=new HashSet<>();
+                    hsSimple.add(item);
+
+                    p.getEdgePathsSequence().add(new minMaxQuantifier(hsSimple,"http://x/edgePath"));
+
+
+                }
+                else{
+
+                    StmtIterator iter4 = rdfn2.asResource().listProperties();
+                    System.out.println("test"+rdfn2.asResource().toString());
+                    Statement stmt4      = iter4.nextStatement();
+
+                    pathPredicateSupport(p,stmt4);
+                }
+
+                }
+
+            break;
+        case "http://x/minMaxPath":
+            int min=0,max=0;
+            String pathname="";
+            Resource blank_node2=stmt2.getObject().asResource();
+            StmtIterator iter3 = blank_node2.listProperties();
+            for(int j=0;j<3;j++){
+                Statement stmtMinMax      = iter3.nextStatement();
+                if(stmtMinMax.getPredicate().toString().equals("http://x/min")){
+                    min = stmtMinMax.getObject().asLiteral().getInt();
+                }
+                else if(stmtMinMax.getPredicate().toString().equals("http://x/max")) {
+                    max = stmtMinMax.getObject().asLiteral().getInt();
+                }
+                else if(stmtMinMax.getPredicate().toString().equals("http://x/pathName")) {
+                    pathname = stmtMinMax.getObject().asLiteral().getString();
+                    System.out.println("test3"+pathname);
+
+                }
+            }
+
+            System.out.println("min"+min);
+            System.out.println("max"+max);
+            System.out.println("pathname"+pathname);
+
+            HashSet<String> hs_minmax=new HashSet<>();
+            hs_minmax.add(pathname);
+
+            p.getEdgePathsSequence().add(new minMaxQuantifier(hs_minmax,min,max));
+
+            break;
+        default:
+
+            HashSet<String> hs=new HashSet<>();
+            hs.add(stmt2.getObject().toString());
+
+            p.getEdgePathsSequence().add(new minMaxQuantifier(hs,stmt2.getPredicate().toString()));
+
+
+
+            System.out.println("test3"+p.getEdgePathsSequence());
+    }
+}
 
 
 

@@ -55,7 +55,7 @@ public class RML_map {
         else if(referenceFormulation.equals(PR.PG2RMLPath.toString())){
             System.out.println("wykonalo sie");
             if(method instanceof path){
-                return null;
+                return ((path) method).traverse();
                // return ((path) method).find();
             }
             else{

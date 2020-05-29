@@ -3,7 +3,7 @@ package mapper.methods.path;
 import mapper.mapper;
 import property_graph.vertex;
 
-public class pair {
+class pair {
     public vertex getVertex_start() {
         return vertex_start;
     }
