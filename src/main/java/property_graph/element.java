@@ -56,9 +56,11 @@ public abstract class element {
      else if(key.equals("label")){
          return labels;
      }
-     else {
-         return properties.get(key);
+     else if(key.contains("prop.")){
+
+         return properties.get(key.replace("prop.",""));
      }
+     return null;
      }
 
 

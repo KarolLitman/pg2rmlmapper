@@ -43,9 +43,6 @@ public class vertex extends element{
                 ", properties=" + properties +
                 ", IN=" + IN +
                 ", OUT=" + OUT +
-
-
-
                 "}\n";
     }
 }

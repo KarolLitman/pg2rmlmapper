@@ -45,7 +45,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 	public Object setValidType(YARSpgParser.Primitive_valueContext ctx){
 
 
-		//System.out.println(ctx.STRING());
+		//
 
 		if(ctx.STRING()!=null){
 			String primivite_value=ctx.getText();
@@ -95,11 +95,11 @@ public class YARSpgListener extends YARSpgBaseListener {
 			}
 
 
-			//System.out.println(ctx.getText());
+			//
 
-			//System.out.println(ctx.DATETYPE());
+			//
 
-			//System.out.println(ctx.getChild(0).getChild(0));
+			//
 
 //			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 //			Date date = sdf.parse(ctx.getText());
@@ -110,7 +110,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 		}
 		else if(ctx.BOOL()!=null){
 			boolean primitive_value=Boolean.parseBoolean(ctx.getText());
-			//System.out.println("test "+primitive_value);
+			//
 			return primitive_value;
 		}
 
@@ -195,6 +195,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 		vertex = new vertex();
 		properties = new HashMap<String, Object>();
 		current=properties;
+		System.out.println(ctx.getText());
 	};
 	public void exitNode(YARSpgParser.NodeContext ctx){
 		vertex.setProperties(properties);
@@ -212,7 +213,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 
         y.vertexMap.get(s.substring(1,s.length()-1)).addOutEdge(edge);
 
-       // System.out.println("tescik1"+s);
+       //
 
         edge.setVertex_start(y.vertexMap.get(s.substring(1,s.length()-1)));
 
@@ -220,7 +221,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 		s=ctx.getChild(0).getChild(second_label-2).getText();
   //  edge.setVertex_end(y.vertexMap.get(s.substring(1,s.length()-1)));
 
-		//System.out.println("tescik2"+s);
+		//
 
 
     if(edge.isDirected()){
@@ -319,7 +320,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 //
 //
 //			double primitive_value=Double.parseDouble(ctx.getText());
-//			System.out.println("test "+primitive_value);
+//
 //
 //
 //		}
@@ -329,7 +330,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 //		}
 //		else if(ctx.BOOL()!=null){
 //			boolean primitive_value=Boolean.parseBoolean(ctx.getText());
-//			System.out.println("test "+primitive_value);
+//
 //		}
 
 
@@ -346,9 +347,9 @@ public class YARSpgListener extends YARSpgBaseListener {
 		else if(flag==2){
 
 
-		//System.out.println(stack.firstElement());
-		//	System.out.println(stack.firstElement());
-		//	System.out.println(setValidType(ctx));
+		//
+		//
+		//
 			stack.lastElement().add(setValidType(ctx));
 
 
@@ -392,9 +393,9 @@ public class YARSpgListener extends YARSpgBaseListener {
 	public void exitSet(YARSpgParser.SetContext ctx){
 		stackSet.pop();
 
-//		System.out.println();
-//		System.out.println(nestSet);
-//		System.out.println();
+//
+//
+//
 		i--;
 		if(i==0){
 			flag=0;
@@ -427,7 +428,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 		if(i==0){
 			flag=0;
 			current=properties;
-			//System.out.println(properties);
+			//
 		}
 	};
 	public void enterStruct(YARSpgParser.StructContext ctx){
@@ -457,7 +458,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 		if(i==0){
 			flag=0;
 			current=properties;
-			//System.out.println(properties);
+			//
 		}
 	};
 

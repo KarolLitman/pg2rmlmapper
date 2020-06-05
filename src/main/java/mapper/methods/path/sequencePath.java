@@ -1,8 +1,5 @@
 package mapper.methods.path;
 
-import mapper.mapper;
-import property_graph.element;
-
 import java.util.ArrayList;
 
 class sequencePath {

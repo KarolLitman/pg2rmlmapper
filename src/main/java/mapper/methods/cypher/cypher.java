@@ -1,5 +1,12 @@
 package mapper.methods.cypher;
 
+import implementation_listeners.CypherListener;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import parsers_and_listeners.cypher.CypherLexer;
+import parsers_and_listeners.cypher.CypherParser;
 import property_graph.*;
 
 import java.util.*;
@@ -12,11 +19,16 @@ public class cypher {
     YARS property_graph;
     ArrayList<element> results;
 
-    public cypher(YARS property_graph){
+
+
+    public cypher(String generalpattern){
        this.generalpattern=generalpattern;
         pec=new ArrayList<PatternElementChain>();
-        this.property_graph=property_graph;
         results=new ArrayList<>();
+    }
+
+    public void setProperty_graph(YARS property_graph) {
+        this.property_graph = property_graph;
     }
 
     public vertex getNodePattern() {
@@ -42,6 +54,20 @@ public class cypher {
 
 
     public ArrayList <element> traverse(){
+
+
+        CypherLexer lexer2 = new CypherLexer(CharStreams.fromString(generalpattern));
+
+
+        CypherParser parser2 = new CypherParser(new CommonTokenStream(lexer2));
+        ParseTree tree2 = parser2.oC_Pattern();
+        CypherListener cypher = new CypherListener(this);
+        ParseTreeWalker walker2 = new ParseTreeWalker();
+        walker2.walk(cypher, tree2);
+
+
+
+
 
 
         cypher_pattern_result cpr;
@@ -72,17 +98,17 @@ public class cypher {
             }
         }
 
-//System.out.println(new_vertexes);
+//
 
                for (PatternElementChain pec_one: this.pec){
-                   //System.out.println("ilerazy");
+                   //
 
 
 
                    for(int i=0;i<pec_one.getMaxHops();i++){
                        temp=new ArrayList<>();
 
-                       System.out.println(i);
+
 
                        for(vertex v:new_vertexes){
 
@@ -109,7 +135,7 @@ public class cypher {
 
 
 
-System.out.println(results);
+
 return results;
     }
 
@@ -138,13 +164,13 @@ return results;
                 list_edges.addAll(vertex.getOUT());
             }
             else{
-                System.out.println("It is not possible to use two arrow operators");
+
             }
 
 
             for(edge e: list_edges){
 
-                System.out.println("testowy"+pec_one.RelationshipPattern);
+
 
                 if(cmp(pec_one.RelationshipPattern,e)){
                     if(cmp(pec_one.NodePattern,e.getSecondVertex(vertex))){
@@ -156,9 +182,9 @@ return results;
                             //  list_elements.add(new element_cypher(pec_one.NodePattern.getId(),e.getSecondVertex(vertex)));
                             vertexes.add(e.getSecondVertex(vertex));
                         }
-                        //  System.out.println("przed"+vertex);
+                        //
 
-                        //   System.out.println("po"+vertex);
+                        //
 
 
                         vertexesToNextTraverse.add(e.getSecondVertex(vertex));
@@ -184,12 +210,12 @@ return results;
         boolean hasLabel=false;
         for (String label : fromCypher.getLabels()) {
 
-           // System.out.println("testttttt");
-            //System.out.println(fromYARS.getLabels());
+           //
+            //
             if (fromYARS.getLabels().contains(label)) {
-//                System.out.println(fromCypher);
-//                System.out.println(fromYARS);
-//                System.out.println("false1");
+//
+//
+//
                 hasLabel=true;
             }
         }
@@ -207,15 +233,15 @@ return results;
             String prop_value_yars = fromYARS.getProperties().get(prop_key_cypher).toString();
 
             if (!prop_value_cypher.equals(prop_value_yars)) {
-//                System.out.println("false2");
+//
                 return false;
             }
 
 
         }
-//        System.out.println("trueeeeee");
-//        System.out.println(fromCypher);
-     //  System.out.println(fromYARS);
+//
+//
+     //
 
 
 

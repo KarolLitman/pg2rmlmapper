@@ -10,70 +10,35 @@ import java.util.HashSet;
 import static vocabularies.PR.*;
 
 public class minMaxQuantifier{
-    HashSet<String> labels;
+    String labels;
     int min;
     int max;
-    String method;
+    boolean isInversePath;
 
-    public String getMethod() {
-        return method;
+
+    public minMaxQuantifier() {
     }
 
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
-    public minMaxQuantifier(HashSet<String> labels) {
-        this.labels=labels;
-        this.min = 1;
-        this.max = 1;
-    }
-
-    public minMaxQuantifier(HashSet<String> labels,int min, int max) {
+    public minMaxQuantifier(String labels, int min, int max) {
         this.labels=labels;
         this.min = min;
         this.max = max;
-        this.method="http://x/minMaxPath";
+        this.isInversePath=false;
     }
 
-    public minMaxQuantifier(HashSet<String> labels, String method) {
-
-        this.method=method;
-
-
-        switch(method){
-            case "http://x/edgePath":
-                min=1;
-                max=1;
-                break;
-            case "http://x/zeroOrMorePath":
-                min=0;
-                max=Integer.MAX_VALUE;
-                break;
-            case "http://x/oneOrMorePath":
-                min=1;
-                max= Integer.MAX_VALUE;
-                break;
-            case "http://x/optionalPath":
-                min=0;
-                max= 1;
-                break;
-            case "http://x/inversePath":
-                min=1;
-                max= 1;
-                break;
-        }
-
+    public minMaxQuantifier(String labels,int min, int max,boolean isInversePath) {
         this.labels=labels;
         this.min = min;
         this.max = max;
+        this.isInversePath=isInversePath;
     }
 
-    public HashSet<String> getLabels() {
+
+    public String getLabels() {
         return labels;
     }
 
-    public void setLabels(HashSet<String> labels) {
+    public void setLabels(String labels) {
         this.labels = labels;
     }
 
@@ -99,7 +64,6 @@ public class minMaxQuantifier{
                 "labels=" + labels +
                 ", min=" + min +
                 ", max=" + max +
-                ", method='" + method + '\'' +
                 '}';
     }
 }

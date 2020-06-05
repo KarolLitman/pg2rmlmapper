@@ -3,16 +3,6 @@ package mapper;
 class predicateObjectMap{
     String predicate;
     Object object;
-//    String reference;
-//    String langtag;
-//    String datatype;
-//    String template;
-//    predicateObjectMap(literal l){
-//        object=l;
-//    }
-//    predicateObjectMap(String template){
-//        object=template;
-//    }
     @Override
     public String toString() {
         return "predicateObjectMap{" +

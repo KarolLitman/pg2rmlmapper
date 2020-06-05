@@ -36,33 +36,33 @@ public class PR {
     }
 
     public static String getURI() {
-        return "http://x/";
+        return "http://ii.uwb.edu.pl/pr#";
     }
 
     static {
-        PG2RMLSelector = M_MODEL.createProperty("http://x/PG2RMLSelector");
-        CypherMatch = M_MODEL.createProperty("http://x/CypherMatch");
-        selector = M_MODEL.createProperty("http://x/selector");
-        idSelector = M_MODEL.createProperty("http://x/idSelector");
-        idNodeSelector = M_MODEL.createProperty("http://x/idNodeSelector");
-        idEdgeSelector = M_MODEL.createProperty("http://x/idEdgeSelector");
-        labelSelector = M_MODEL.createProperty("http://x/labelSelektor");
-        labelNodeSelector = M_MODEL.createProperty("http://x/labelNodeSelector");
-        labelEdgeSelector = M_MODEL.createProperty("http://x/labelEdgeSelector");
-        propSelector = M_MODEL.createProperty("http://x/propSelector");
-        propNodeSelector = M_MODEL.createProperty("http://x/propNodeSelector");
-        propEdgeSelector = M_MODEL.createProperty("http://x/propEdgeSelector");
+        PG2RMLSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#PG2RMLSelector");
+        CypherMatch = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#CypherMatch");
+        selector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#selector");
+        idSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#idSelector");
+        idNodeSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#idNodeSelector");
+        idEdgeSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#idEdgeSelector");
+        labelSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#labelSelektor");
+        labelNodeSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#labelNodeSelector");
+        labelEdgeSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#labelEdgeSelector");
+        propSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#propSelector");
+        propNodeSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#propNodeSelector");
+        propEdgeSelector = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#propEdgeSelector");
 
-        PG2RMLPath = M_MODEL.createProperty("http://x/PG2RMLPath");
-        path = M_MODEL.createProperty("http://x/path");
-        edgePath = M_MODEL.createProperty("http://x/edgePath");
-        inversePath = M_MODEL.createProperty("http://x/inversePath");
-        sequencePath = M_MODEL.createProperty("http://x/sequencePath");
-        alternativePath = M_MODEL.createProperty("http://x/alternativePath");
-        zeroOrMorePath = M_MODEL.createProperty("http://x/zeroOrMorePath");
-        oneOrMorePath = M_MODEL.createProperty("http://x/oneOrMorePath");
-        optionalPath = M_MODEL.createProperty("http://x/optionalPath");
-        minMaxPath = M_MODEL.createProperty("http://x/minMaxPath");
+        PG2RMLPath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#PG2RMLPath");
+        path = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#path");
+        edgePath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#edgePath");
+        inversePath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#inversePath");
+        sequencePath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#sequencePath");
+        alternativePath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#alternativePath");
+        zeroOrMorePath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#zeroOrMorePath");
+        oneOrMorePath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#oneOrMorePath");
+        optionalPath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#optionalPath");
+        minMaxPath = M_MODEL.createProperty("http://ii.uwb.edu.pl/pr#minMaxPath");
 
 
 

@@ -15,10 +15,13 @@ public class selectors {
     YARS y;
 
 
-    public selectors(YARS y,String methodSelector, String value) {
+    public selectors(String methodSelector, String value) {
         this.methodSelector = methodSelector;
         this.value = value;
-        this.y = y;
+    }
+
+    public void setProperty_graph(YARS property_graph) {
+        this.y = property_graph;
     }
 
     @Override
@@ -28,9 +31,7 @@ public class selectors {
                 ", value='" + value + '\'' +
                 '}';
     }
-// public selectors(YARS y) {
-//        this.y = y;
-//    }
+
 
     vertex getVertexbyIDSelector(String id){
        return y.vertexMap.get(id);
@@ -56,7 +57,6 @@ public class selectors {
 
 
         for(Map.Entry<String, vertex> entry : y.vertexMap.entrySet()) {
-            //String key = entry.getKey();
             vertex v = entry.getValue();
 
             for(String s:v.getLabels()){
@@ -64,8 +64,6 @@ public class selectors {
                    vertexList.add(v);
                 }
             }
-            // do what you have to do here
-            // In your case, another loop.
         }
 
 
@@ -76,15 +74,12 @@ return vertexList;
 
 
         for (edge e: y.edgeList) {
-            //String key = entry.getKey();
 
             for(String s:e.getLabels()){
                 if(s.equals(label)){
                     edgeList.add(e);
                 }
             }
-            // do what you have to do here
-            // In your case, another loop.
         }
 
 
@@ -123,10 +118,8 @@ return vertexList;
 
 
         for (edge e: y.edgeList) {
-            //String key = entry.getKey();
 
             for(Map.Entry<String, Object> entry2 : e.getProperties().entrySet()) {
-                //String key = entry2.getKey();
                 String prop_key = entry2.getKey();
 
                 if (prop_key.equals(prop)) {
@@ -134,8 +127,6 @@ return vertexList;
 
                 }
             }
-            // do what you have to do here
-            // In your case, another loop.
         }
 
 
@@ -150,29 +141,28 @@ return vertexList;
     }
     public Object find(){
 
-     //   System.out.println(methodSelector);
 
         switch(methodSelector){
-            case "http://x/idSelector":
+            case "http://ii.uwb.edu.pl/pr#idSelector":
                 return getAllIDSelector(value);
-            case "http://x/idNodeSelector":
+            case "http://ii.uwb.edu.pl/pr#idNodeSelector":
                 return getVertexbyIDSelector(value);
-            case "http://x/idEdgeSelector":
+            case "http://ii.uwb.edu.pl/pr#idEdgeSelector":
                 return getEdgebyIDSelector(value);
 
 
-            case "http://x/labelSelector":
+            case "http://ii.uwb.edu.pl/pr#labelSelector":
                 return getAllbyLabelSelector(value);
-            case "http://x/labelNodeSelector":
+            case "http://ii.uwb.edu.pl/pr#labelNodeSelector":
                 return getVertexbyLabelSelector(value);
-            case "http://x/labelEdgeSelector":
+            case "http://ii.uwb.edu.pl/pr#labelEdgeSelector":
                 return getEdgebyLabelSelector(value);
 
-            case "http://x/propSelector":
+            case "http://ii.uwb.edu.pl/pr#propSelector":
                 return getAllbyPropSelector(value);
-            case "http://x/propNodeSelector":
+            case "http://ii.uwb.edu.pl/pr#propNodeSelector":
                 return getVertexbyPropSelector(value);
-            case "http://x/propEdgeSelector":
+            case "http://ii.uwb.edu.pl/pr#propEdgeSelector":
                 return getEdgebyPropSelector(value);
                 default:
                     return null;

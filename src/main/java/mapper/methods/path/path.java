@@ -12,34 +12,27 @@ import java.util.Map;
 
 public class path {
 
-    ArrayList<minMaxQuantifier> edgePathsSequence;
+    ArrayList<Object> edgePathsSequence;
     YARS property_graph;
     ArrayList<pair> results;
 
-    public ArrayList<minMaxQuantifier> getEdgePathsSequence() {
+    public ArrayList<Object> getEdgePathsSequence() {
         return edgePathsSequence;
     }
 
-    public void setEdgePathsSequence(ArrayList<minMaxQuantifier> edgePathsSequence) {
+    public void setEdgePathsSequence(ArrayList<Object> edgePathsSequence) {
         this.edgePathsSequence = edgePathsSequence;
     }
 
-    public path(YARS property_graph){
+    public void setProperty_graph(YARS property_graph) {
+        this.property_graph = property_graph;
+    }
+
+    public path(){
         edgePathsSequence=new ArrayList<>();
 
 
-//        HashSet<String> hs=new HashSet<>();
-//        hs.add("knows");
-//
-//        HashSet<String> hs2=new HashSet<>();
-//        hs2.add("love");
-//
-//       edgePathsSequence.add(new minMaxQuantifier(hs,"inversePath"));
 
-        //edgePathsSequence.add(new minMaxQuantifier(hs,0,10));
-       // edgePathsSequence.add(new edgePaths(hs2,0,10));
-
-        this.property_graph=property_graph;
 
         results=new ArrayList<>();
     }
@@ -50,16 +43,14 @@ public class path {
 
 
 
-    public ArrayList <pair> traverse(){
+    public ArrayList <vertex> traverse(){
         ArrayList<pair> cpr;
 
 
-//        ArrayList<element_cypher> list_elements=new ArrayList<>();
-        ArrayList<pair> new_vertexes=new ArrayList<>();
+        HashSet<pair> new_vertexes=new HashSet<>();
         ArrayList<pair> temp=new ArrayList<>();
 
 
-        // HashSet<element_cypher>list_elements=new HashSet<element_cypher>();
 
 
 
@@ -74,54 +65,67 @@ public class path {
             }
 
 
-//System.out.println(new_vertexes);
 int j=0;
-     //   boolean beginMinEqualsZero=0;
-        for (minMaxQuantifier pec_one: this.edgePathsSequence){
-            System.out.println(pec_one.getLabels());
-
-//            if(pec_one.getMin()>0){
-//                minEqualsZero++;
-//            }
+        for (Object pec_one: this.edgePathsSequence){
 
 
-            System.out.println("czy wystepuje pec"+pec_one);
-
-           // System.out.println("przed"+new_vertexes);
-
-            new_vertexes=getPairsFromOneOperation(new_vertexes,pec_one);
-
-            //System.out.println("po"+new_vertexes);
 
 
-//dodana petla
 
 
-//tu zakonczona petla
+            if(pec_one instanceof minMaxQuantifier){
+                new_vertexes=getPairsFromOneOperation(new_vertexes, (minMaxQuantifier) pec_one);
+            }
+            else if(pec_one instanceof alternativePath){
+
+
+
+
+                HashSet<pair> temp_new_vertexes=new HashSet<>();
+
+                for(minMaxQuantifier pec_one2:((alternativePath) pec_one).getAlternativePath()){
+                    temp_new_vertexes.addAll(getPairsFromOneOperation(new_vertexes, (minMaxQuantifier) pec_one2));
+                }
+                new_vertexes=temp_new_vertexes;
+
+
+
+            }
+
+
             j++;
 
 
 
         }
-System.out.println(this.edgePathsSequence);
-System.out.println(new_vertexes);
-        return new_vertexes;
+
+
+
+
+ArrayList<vertex> temp_array=new ArrayList();
+
+
+for(pair p: new_vertexes){
+    temp_array.add(p.vertex_end);
+}
+
+        return temp_array;
     }
 
 
-    ArrayList<pair> getPairsFromOneOperation(ArrayList<pair> new_vertexes, minMaxQuantifier pec_one){
+    HashSet<pair> getPairsFromOneOperation(HashSet<pair> new_vertexes, minMaxQuantifier pec_one){
 
-        ArrayList<pair> results=new ArrayList<>();
-        ArrayList<pair> temp=new ArrayList<>();
+        HashSet<pair> results=new HashSet<>();
+        HashSet<pair> temp=new HashSet<>();
         ArrayList<pair> cpr;
         ArrayList<path_result> path_results=new ArrayList<>();
 
 
 
         for(int i=0;i<pec_one.getMax();i++){
-            temp=new ArrayList<>();
+            temp=new HashSet<>();
 
-            System.out.println(i);
+
 
             for(pair p:new_vertexes){
 
@@ -129,29 +133,19 @@ System.out.println(new_vertexes);
                 temp.addAll(cpr);
                 if(i+1>=pec_one.getMin()){
                     results.addAll(cpr);
-                    //results.addAll(cpr.edges);
                 }
             }
 
-//                if(pec_one.getMax()-pec_one.getMin()>0&&(j!=0||pec_one.getMin()==0)){
-//                    // results.addAll(cpr.vertexes);
-//                    // results.addAll(cpr.edges);
-//                    temp.addAll(new_vertexes);
-//                    System.out.println("test"+(pec_one.getMax()-pec_one.getMin()));
-//                }
+
 
 
             if(i==0&&pec_one.getMin()==0){
-                // results.addAll(cpr.vertexes);
-                // results.addAll(cpr.edges);
+
                 temp.addAll(new_vertexes);
                 results.addAll(new_vertexes);
-                // System.out.println("test"+(pec_one.getMax()-pec_one.getMin()));
             }
-           // j++;
 
             new_vertexes=temp;
-            //System.out.println(new_vertexes);
 
 
         }
@@ -183,14 +177,12 @@ System.out.println(new_vertexes);
 
         for(edge e: list_edges){
 
-//            System.out.println("testowy"+pec_one.RelationshipPattern);
 
 
-            if(pec_one.method.equals("inversePath")){
+            if(pec_one.isInversePath){
                 if(!cmp(pec_one,e)){
 
                     vertexes_pair.add(new pair(p.getVertex_start(),e.getSecondVertex(p.vertex_end)));
-                    // vertexesToNextTraverse.add(e.getSecondVertex(vertex));
 
                 }
             }
@@ -198,7 +190,6 @@ System.out.println(new_vertexes);
                 if(cmp(pec_one,e)){
 
                     vertexes_pair.add(new pair(p.getVertex_start(),e.getSecondVertex(p.vertex_end)));
-                    // vertexesToNextTraverse.add(e.getSecondVertex(vertex));
 
                 }
             }
@@ -209,7 +200,6 @@ System.out.println(new_vertexes);
         }
 
 
-     //   cypher_pattern_result cpr= new cypher_pattern_result(vertexes,edges,vertexesToNextTraverse);
 
 
 
@@ -219,27 +209,10 @@ System.out.println(new_vertexes);
 
 
     Boolean cmp(minMaxQuantifier fromPaths, element fromYARS) {
-        boolean hasLabel=false;
-        for (String label : fromPaths.getLabels()) {
 
-            if (fromYARS.getLabels().contains(label)) {
-//                System.out.println(fromCypher);
-//                System.out.println(fromYARS);
-//                System.out.println("false1");
-                hasLabel=true;
-            }
-        }
-        if(!hasLabel){
-            return false;
-        }
-
-//        System.out.println("trueeeeee");
-//        System.out.println(fromCypher);
-        //  System.out.println(fromYARS);
+        return fromYARS.getLabels().contains(fromPaths.labels);
 
 
-
-        return true;
 
 
     }

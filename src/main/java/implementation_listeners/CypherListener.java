@@ -19,8 +19,8 @@ import java.util.Map;
  */
 public class CypherListener extends CypherBaseListener {
 
-	public CypherListener(YARS y){
-		c = new cypher(y);
+	public CypherListener(cypher c){
+		this.c = c;
 	}
 
 	edge edge;
@@ -170,7 +170,7 @@ public class CypherListener extends CypherBaseListener {
 	@Override public void exitOC_Where(CypherParser.OC_WhereContext ctx) { }
 	
 	@Override public void enterOC_Pattern(CypherParser.OC_PatternContext ctx) {
-//		System.out.println(ctx.getText());
+//
 	}
 	
 	@Override public void exitOC_Pattern(CypherParser.OC_PatternContext ctx) { }
@@ -192,7 +192,7 @@ public class CypherListener extends CypherBaseListener {
 		iterator++;
 			vertex=new vertex();
 			isVertex=true;
-//		System.out.println(ctx.getText());
+//
 	}
 	
 	@Override public void exitOC_NodePattern(CypherParser.OC_NodePatternContext ctx) {
@@ -222,26 +222,26 @@ public class CypherListener extends CypherBaseListener {
 		edge=new edge();
 		properties = new HashMap<String, Object>();
 
-		//System.out.println(ctx.getText());
+		//
 	}
 	
 	@Override public void exitOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 
 
-		//System.out.println("b"+pec);
+		//
 
-//		System.out.println("test1");
-//		System.out.println(edge);
-//		System.out.println("test2");
-//		System.out.println(vertex);
-//		System.out.println("test3");
-//		System.out.println(pec);
+//
+//
+//
+//
+//
+//
 
 
 	}
 	
 	@Override public void enterOC_RelationshipDetail(CypherParser.OC_RelationshipDetailContext ctx) {
-		//System.out.println(ctx.getText());
+		//
 
 	}
 	
@@ -380,8 +380,8 @@ public class CypherListener extends CypherBaseListener {
 	@Override public void exitOC_Atom(CypherParser.OC_AtomContext ctx) { }
 	
 	@Override public void enterOC_Literal(CypherParser.OC_LiteralContext ctx) {
-		//System.out.println(key);
-		//System.out.println(ctx.getText());
+		//
+		//
 
 		Character c= ctx.getText().charAt(0);
 		String primivite_value=ctx.getText();
@@ -477,7 +477,7 @@ public class CypherListener extends CypherBaseListener {
 		else{
 			edge.setId(ctx.getText());
 		}
-		//System.out.println(ctx.getText());
+		//
 	}
 	
 	@Override public void exitOC_Variable(CypherParser.OC_VariableContext ctx) { }

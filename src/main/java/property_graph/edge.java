@@ -7,9 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class edge extends element{
-//    String id;
-//    HashSet<String> labels;
-//    Map<String, Object> properties;
+
     boolean isDirected;
     vertex vertex_start;
     vertex vertex_end;
@@ -18,8 +16,6 @@ public class edge extends element{
     public String toString() {
         return "edge{" +
                 "isDirected=" + isDirected +
-              //  ", vertex_start=" + vertex_start +
-              //  ", vertex_end=" + vertex_end +
                 ", id='" + id + '\'' +
                 ", labels=" + labels +
                 ", properties=" + properties +
