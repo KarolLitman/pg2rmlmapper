@@ -13,20 +13,14 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.util.iterator.ExtendedIterator;
-import org.apache.jena.util.iterator.NiceIterator;
-import vocabularies.PR;
-import vocabularies.RML;
-import vocabularies.RR;
 import parsers_and_listeners.cypher.yarspg.YARSpgLexer;
 import parsers_and_listeners.cypher.yarspg.YARSpgParser;
-import parsers_and_listeners.cypher.CypherLexer;
-import parsers_and_listeners.cypher.CypherParser;
 
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 
 
 public class mapper {
@@ -39,10 +33,10 @@ public class mapper {
 
 
         Model model = ModelFactory.createDefaultModel();
-        model.read("example.rml", "TURTLE");
+        model.read(new File(args[0]).toURL().toString(), "TURTLE");
 
 
-ArrayList <RML_map> rml_list=new ArrayList<>();
+        ArrayList <RML_map> rml_list=new ArrayList<>();
 
 
 
@@ -54,35 +48,24 @@ ArrayList <RML_map> rml_list=new ArrayList<>();
             rml_list.add(rml);
         }
 
-   //     System.out.println(rml_list);
 
-       // StmtIterator iter = model.listStatements();
-
-      //  NodeIterator z = model.listObjects();
 
         StmtIterator iter = model.listStatements();
 
 
 
-//        switch (rml.method_string){
-//            case "selector":
-//                break;
-//            case "iterator":
-//                break;
-//            case "path":
-//                break;
-//        }
 
-        YARSpgLexer lexer = new YARSpgLexer(CharStreams.fromFileName("example.yarspg"));
-        YARSpgParser parser = new YARSpgParser(new CommonTokenStream(lexer));
-        ParseTree tree = parser.yarspg();
-        YARSpgListener yars2 = new YARSpgListener();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk((ParseTreeListener) yars2, tree);
 
         Model model_output = ModelFactory.createDefaultModel();
 
         for(RML_map rml:rml_list){
+            YARSpgLexer lexer = new YARSpgLexer(CharStreams.fromFileName(rml.source));
+            YARSpgParser parser = new YARSpgParser(new CommonTokenStream(lexer));
+            ParseTree tree = parser.yarspg();
+            YARSpgListener yars2 = new YARSpgListener();
+            ParseTreeWalker walker = new ParseTreeWalker();
+            walker.walk((ParseTreeListener) yars2, tree);
+
             if(rml.method instanceof selectors){
                 ((selectors)rml.method).setProperty_graph(yars2.y);
             }

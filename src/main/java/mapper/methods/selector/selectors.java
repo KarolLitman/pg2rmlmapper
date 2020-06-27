@@ -5,6 +5,7 @@ import property_graph.edge;
 import property_graph.vertex;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +53,8 @@ public class selectors {
             return getEdgebyIDSelector(id);
         }
     }
-    List<vertex> getVertexbyLabelSelector(String label){
-        List<vertex> vertexList = new ArrayList<>();
+    HashSet<vertex> getVertexbyLabelSelector(String label){
+        HashSet<vertex> vertexList = new HashSet<>();
 
 
         for(Map.Entry<String, vertex> entry : y.vertexMap.entrySet()) {
@@ -69,8 +70,8 @@ public class selectors {
 
 return vertexList;
     }
-    List<edge> getEdgebyLabelSelector(String label){
-        List<edge> edgeList = new ArrayList<>();
+    HashSet<edge> getEdgebyLabelSelector(String label){
+        HashSet<edge> edgeList = new HashSet<>();
 
 
         for (edge e: y.edgeList) {
@@ -85,15 +86,15 @@ return vertexList;
 
         return edgeList;
     }
-    List<Object> getAllbyLabelSelector(String label){
-        List<Object> ObjectList = new ArrayList<>();
+    HashSet<Object> getAllbyLabelSelector(String label){
+        HashSet<Object> ObjectList = new HashSet<>();
 
         ObjectList.addAll(getVertexbyLabelSelector(label));
         ObjectList.addAll(getEdgebyLabelSelector(label));
         return ObjectList;
     }
-    List<vertex> getVertexbyPropSelector(String prop){
-        List<vertex> vertexList = new ArrayList<>();
+    HashSet<vertex> getVertexbyPropSelector(String prop){
+        HashSet<vertex> vertexList = new HashSet<>();
 
 
         for(Map.Entry<String, vertex> entry : y.vertexMap.entrySet()) {
@@ -113,8 +114,8 @@ return vertexList;
 
         return vertexList;
     }
-    List<edge> getEdgebyPropSelector(String prop){
-        List<edge> edgeList = new ArrayList<>();
+    HashSet<edge> getEdgebyPropSelector(String prop){
+        HashSet<edge> edgeList = new HashSet<>();
 
 
         for (edge e: y.edgeList) {
@@ -132,8 +133,8 @@ return vertexList;
 
         return edgeList;
     }
-    List<Object> getAllbyPropSelector(String prop){
-        List<Object> ObjectList = new ArrayList<>();
+    HashSet<Object> getAllbyPropSelector(String prop){
+        HashSet<Object> ObjectList = new HashSet<>();
 
         ObjectList.addAll(getVertexbyPropSelector(prop));
         ObjectList.addAll(getEdgebyPropSelector(prop));

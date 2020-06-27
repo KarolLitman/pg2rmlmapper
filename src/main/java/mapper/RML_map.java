@@ -14,7 +14,9 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
+import property_graph.edge;
 import property_graph.element;
+import property_graph.vertex;
 import vocabularies.PR;
 import vocabularies.RML;
 import vocabularies.RR;
@@ -85,12 +87,18 @@ public class RML_map {
 //
 //
                 resource = model.createResource(template.replace("{id}", ((element) o).getId()));
-            } else if (curly_brackets.equals("label")) {
+            }
+            else if (curly_brackets.equals("vertex_start")) {
 
+                resource = model.createResource(template.replace("{vertex_start}", ((edge) o).getVertex_start().getId()));
 
-                //TODO
-                //resource=model.createResource(subjectMap.template.replace("{label}",((element) o).getLabels()));
-            } else {
+            }
+            else if (curly_brackets.equals("vertex_end")) {
+
+                resource = model.createResource(template.replace("{vertex_end}", ((edge) o).getVertex_end().getId()));
+            }
+
+            else {
 
                 resource = model.createResource(template.replace("{" + curly_brackets + "}", ((element) o).getProperties().get(curly_brackets).toString()));
             }
@@ -105,15 +113,15 @@ public class RML_map {
 
         Object obj = find_elements();
 
-        ArrayList<element> list = null;
+        HashSet<element> list = null;
 
 
         if (obj instanceof element) {
-            list = new ArrayList<>();
+            list = new HashSet<>();
             list.add((element) obj);
         }
-        if (obj instanceof ArrayList) {
-            list = (ArrayList<element>) obj;
+        if (obj instanceof HashSet) {
+            list = (HashSet<element>) obj;
         }
 
 
@@ -122,7 +130,7 @@ public class RML_map {
 
 
         if (list != null)
-            for (Object o : (ArrayList) list)
+            for (Object o : (HashSet) list)
                 if (o instanceof element) {
 
 
@@ -130,7 +138,10 @@ public class RML_map {
 
 
                     for (String one_class : subjectMap.classs) {
-                        model.add(resource, RDF.type, one_class);
+
+
+
+                        model.add(resource, RDF.type, model.createResource(one_class));
                     }
 
 
@@ -138,10 +149,19 @@ public class RML_map {
 
                         if (pom.object instanceof literal) {
 
-                            Object object = ((element) o).getElement(((literal) pom.object).reference);
+                            Object object=null;
+                            if(o instanceof vertex){
+                                 object = ((vertex) o).getElement(((literal) pom.object).reference);
+
+                            }
+                            else{
+                                if(o instanceof edge){
+                                  object = ((edge) o).getElement(((literal) pom.object).reference);
+
+                                }
+                            }
                             if (object != null) {
                                 if (((literal) pom.object).language == null) {
-                                    //TODO moze pozniej zmienic lepiej
                                     if (object instanceof HashSet && ((literal) pom.object).reference.equals("label")) {
 
                                         for (String element : (HashSet<String>) object) {
@@ -182,9 +202,21 @@ public class RML_map {
                                 } else {
 
 
-                                    model.add(resource, model.createProperty(pom.predicate), object.toString(), ((literal) pom.object).language);
+                                    if(object instanceof HashSet) {
+                                        for (String element : (HashSet<String>) object) {
+                                            model.add(resource, model.createProperty(pom.predicate), element, ((literal) pom.object).language);
+                                        }
+                                    }
+                                        else{
+                                            model.add(resource, model.createProperty(pom.predicate), object.toString(), ((literal) pom.object).language);
 
-                                }
+                                        }
+
+
+                                    }
+
+
+
 
 
                             }
@@ -197,8 +229,6 @@ public class RML_map {
 
                 }
 
-        System.out.println("test");
- //       model.write(System.out, "TTL");
 
 
         return model;
@@ -231,28 +261,7 @@ public class RML_map {
 
     }
 
-
-    Seq nestArrayList3(Seq s, Model model, predicateObjectMap pom, ArrayList<Object> object) {
-        for (Object element : object) {
-            if (element instanceof ArrayList) {
-
-                Seq res = model.createSeq();
-                Seq s2 = nestArrayList3(res, model, pom, (ArrayList<Object>) element);
-                s.add(s2);
-
-
-            } else {
-
-
-                s.add(element);
-
-
-            }
-        }
-        return s;
-
-    }
-
+    
 
     Resource nestStruct(Resource r, Model model, predicateObjectMap pom, HashMap<String, Object> object) {
 
@@ -280,7 +289,7 @@ public class RML_map {
     Resource nestSet(Resource r, Model model, predicateObjectMap pom, HashSet<Object> object) {
 
 
-        r.addProperty(RDF.type, "http://www.ontologydesignpatterns.org/cp/owl/set.owl#Set");
+        r.addProperty(RDF.type, model.createResource("http://www.ontologydesignpatterns.org/cp/owl/set.owl#Set"));
 
 
         for (Object element : object) {
@@ -344,10 +353,6 @@ public class RML_map {
                     if (predicate.equals(RML.source)) {
                         source = object.toString();
 
-//                System.out.println("weszlo do source");
-
-
-//                System.out.println("za walkerem");
 
 
                     } else if (predicate.equals(RR.classs)) {
@@ -440,8 +445,7 @@ public class RML_map {
                     }
 
 
-                    //System.out.println(stmt.getPredicate());
-                    //System.out.println(stmt.getObject());
+
                     rdfDFS(stmt.getObject(), visited);
                 }
             }

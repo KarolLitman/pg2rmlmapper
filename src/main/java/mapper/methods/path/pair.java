@@ -2,6 +2,8 @@ package mapper.methods.path;
 
 import property_graph.vertex;
 
+import java.util.Objects;
+
 class pair {
     public vertex getVertex_start() {
         return vertex_start;
@@ -39,4 +41,17 @@ class pair {
 
     vertex vertex_start;
     vertex vertex_end;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        pair pair = (pair) o;
+        return Objects.equals(vertex_end, pair.vertex_end);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vertex_end);
+    }
 }

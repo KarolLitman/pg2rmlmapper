@@ -54,6 +54,26 @@ public class edge extends element{
         }
     }
 
+    public Object getElement(String key){
+        if(key.equals("id")){
+            return id;
+        }
+        else if(key.equals("label")){
+            return labels;
+        }
+        else if(key.equals("vertex_start")){
+            return vertex_start.getId();
+        }
+        else if(key.equals("vertex_end")){
+            return vertex_end.getId();
+        }
+        else if(key.contains("prop.")){
+
+            return properties.get(key.replace("prop.",""));
+        }
+        return null;
+    }
+
     public boolean isDirected() {
         return isDirected;
     }

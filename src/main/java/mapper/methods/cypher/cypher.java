@@ -17,14 +17,14 @@ public class cypher {
     vertex nodePattern;
     ArrayList<PatternElementChain> pec;
     YARS property_graph;
-    ArrayList<element> results;
+    HashSet<element> results;
 
 
 
     public cypher(String generalpattern){
        this.generalpattern=generalpattern;
         pec=new ArrayList<PatternElementChain>();
-        results=new ArrayList<>();
+        results=new HashSet<>();
     }
 
     public void setProperty_graph(YARS property_graph) {
@@ -53,7 +53,7 @@ public class cypher {
     }
 
 
-    public ArrayList <element> traverse(){
+    public HashSet <element> traverse(){
 
 
         CypherLexer lexer2 = new CypherLexer(CharStreams.fromString(generalpattern));
@@ -73,23 +73,20 @@ public class cypher {
         cypher_pattern_result cpr;
 
 
-//        ArrayList<element_cypher> list_elements=new ArrayList<>();
-        ArrayList<vertex> new_vertexes=new ArrayList<>();
-        ArrayList<vertex> temp=new ArrayList<>();
+        HashSet<vertex> new_vertexes=new HashSet<>();
+        HashSet<vertex> temp=new HashSet<>();
 
 
-       // HashSet<element_cypher>list_elements=new HashSet<element_cypher>();
 
 
 
         for(Map.Entry<String, vertex> vertexes : property_graph.vertexMap.entrySet()) {
             vertex vertex = vertexes.getValue();
 
-
-            if (cmp(this.nodePattern, vertex)) {
+             if ((cmp(this.nodePattern, vertex))) {
 
                 if (this.nodePattern.getId() != null) {
-                    // list_elements.add(new element_cypher(nodePattern.getId(),vertex));
+
                     results.add(vertex);
                 }
 
@@ -101,16 +98,17 @@ public class cypher {
 //
 
                for (PatternElementChain pec_one: this.pec){
-                   //
 
 
 
                    for(int i=0;i<pec_one.getMaxHops();i++){
-                       temp=new ArrayList<>();
+                       temp=new HashSet<>();
 
 
 
                        for(vertex v:new_vertexes){
+
+
 
                            cpr=traverseVertexToVertexes(v,pec_one);
                            temp.addAll(cpr.vertexesToNextTraverse);
@@ -126,10 +124,7 @@ public class cypher {
                    }
 
 
-//dodana petla
 
-
-//tu zakonczona petla
 
                 }
 
@@ -163,28 +158,19 @@ return results;
                 list_edges=vertex.getIN();
                 list_edges.addAll(vertex.getOUT());
             }
-            else{
-
-            }
 
 
             for(edge e: list_edges){
 
 
-
                 if(cmp(pec_one.RelationshipPattern,e)){
-                    if(cmp(pec_one.NodePattern,e.getSecondVertex(vertex))){
+                    if((cmp(pec_one.NodePattern,e.getSecondVertex(vertex)))){
                         if(pec_one.RelationshipPattern.getId()!=null){
-                            //    list_elements.add(new element_cypher(pec_one.RelationshipPattern.getId(),e));
                             edges.add(e);
                         }
                         if(pec_one.NodePattern.getId()!=null){
-                            //  list_elements.add(new element_cypher(pec_one.NodePattern.getId(),e.getSecondVertex(vertex)));
                             vertexes.add(e.getSecondVertex(vertex));
                         }
-                        //
-
-                        //
 
 
                         vertexesToNextTraverse.add(e.getSecondVertex(vertex));
@@ -207,20 +193,18 @@ return results;
 
 
     Boolean cmp(element fromCypher, element fromYARS) {
-        boolean hasLabel=false;
+        if(!fromCypher.getLabels().isEmpty()){
+            boolean hasLabel=false;
         for (String label : fromCypher.getLabels()) {
 
-           //
-            //
+
             if (fromYARS.getLabels().contains(label)) {
-//
-//
-//
                 hasLabel=true;
             }
         }
         if(!hasLabel){
             return false;
+        }
         }
 
         for (Map.Entry<String, Object> entry2 : fromCypher.getProperties().entrySet()) {
@@ -233,15 +217,12 @@ return results;
             String prop_value_yars = fromYARS.getProperties().get(prop_key_cypher).toString();
 
             if (!prop_value_cypher.equals(prop_value_yars)) {
-//
                 return false;
             }
 
 
         }
-//
-//
-     //
+
 
 
 

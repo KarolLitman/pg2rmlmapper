@@ -26,6 +26,7 @@ public class CypherListener extends CypherBaseListener {
 	edge edge;
 	vertex vertex;
 	Map<String, Object> properties;
+	Map<String, Object> properties2;
 	String key;
 	int iterator=0;
 	public cypher c;
@@ -210,17 +211,18 @@ public class CypherListener extends CypherBaseListener {
 	
 	@Override public void exitOC_PatternElementChain(CypherParser.OC_PatternElementChainContext ctx) {
 
-		edge.setProperties(properties);
+		edge.setProperties(properties2);
 		pec.setNodePattern(vertex);
 		pec.setRelationshipPattern(edge);
 		c.addPatternElementChain(pec);
-		edge.setProperties(properties);
+		//edge.setProperties(properties);
 
 	}
 	
 	@Override public void enterOC_RelationshipPattern(CypherParser.OC_RelationshipPatternContext ctx) {
 		edge=new edge();
-		properties = new HashMap<String, Object>();
+		properties2 = new HashMap<String, Object>();
+
 
 		//
 	}
@@ -380,8 +382,8 @@ public class CypherListener extends CypherBaseListener {
 	@Override public void exitOC_Atom(CypherParser.OC_AtomContext ctx) { }
 	
 	@Override public void enterOC_Literal(CypherParser.OC_LiteralContext ctx) {
-		//
-		//
+
+
 
 		Character c= ctx.getText().charAt(0);
 		String primivite_value=ctx.getText();
@@ -477,7 +479,6 @@ public class CypherListener extends CypherBaseListener {
 		else{
 			edge.setId(ctx.getText());
 		}
-		//
 	}
 	
 	@Override public void exitOC_Variable(CypherParser.OC_VariableContext ctx) { }
@@ -506,21 +507,7 @@ public class CypherListener extends CypherBaseListener {
 	}
 	
 	@Override public void enterOC_IntegerLiteral(CypherParser.OC_IntegerLiteralContext ctx) {
-
-//		if(isRangeLiteral){
-//
-//			if(pec.getMinHops()==-1){
-//				pec.setMinHops(Integer.parseInt(ctx.getText()));
-//			}
-//			else{
-//				pec.setMaxHops(Integer.parseInt(ctx.getText()));
-//			}
-//
-//			}
-		}
-//		else{
-//			pec.setMaxHops(Integer.parseInt(ctx.getText());
-//		}
+	}
 
 
 	

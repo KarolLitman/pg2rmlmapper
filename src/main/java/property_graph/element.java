@@ -5,19 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public abstract class element {
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof element)) return false;
-        element element = (element) o;
-        return Objects.equals(id, element.id);
-    }
 
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id);
-    }
 
 
     String id;
@@ -49,19 +37,7 @@ public abstract class element {
         this.properties = properties;
     }
 
-    public Object getElement(String key){
-     if(key.equals("id")){
-         return id;
-     }
-     else if(key.equals("label")){
-         return labels;
-     }
-     else if(key.contains("prop.")){
 
-         return properties.get(key.replace("prop.",""));
-     }
-     return null;
-     }
 
 
 

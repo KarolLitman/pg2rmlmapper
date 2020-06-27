@@ -43,7 +43,7 @@ public class path {
 
 
 
-    public ArrayList <vertex> traverse(){
+    public HashSet <vertex> traverse(){
         ArrayList<pair> cpr;
 
 
@@ -102,7 +102,7 @@ int j=0;
 
 
 
-ArrayList<vertex> temp_array=new ArrayList();
+        HashSet<vertex> temp_array=new HashSet();
 
 
 for(pair p: new_vertexes){
@@ -117,7 +117,7 @@ for(pair p: new_vertexes){
 
         HashSet<pair> results=new HashSet<>();
         HashSet<pair> temp=new HashSet<>();
-        ArrayList<pair> cpr;
+        HashSet<pair> cpr;
         ArrayList<path_result> path_results=new ArrayList<>();
 
 
@@ -159,14 +159,14 @@ for(pair p: new_vertexes){
 
 
 
-    ArrayList<pair> traverseVertexToVertexes (pair p, minMaxQuantifier pec_one){
-        ArrayList<vertex> vertexesToNextTraverse=new ArrayList<>();
-        ArrayList<element> edges=new ArrayList<>();
-        ArrayList<element> vertexes=new ArrayList<>();
+    HashSet<pair> traverseVertexToVertexes (pair p, minMaxQuantifier pec_one){
+        HashSet<vertex> vertexesToNextTraverse=new HashSet<>();
+        HashSet<element> edges=new HashSet<>();
+        HashSet<element> vertexes=new HashSet<>();
 
         ArrayList<edge> list_edges=new ArrayList<>();
 
-        ArrayList<pair> vertexes_pair=new ArrayList<>();
+        HashSet<pair> vertexes_pair=new HashSet<>();
 
 
 

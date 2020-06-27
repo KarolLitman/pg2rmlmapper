@@ -1,17 +1,11 @@
 package implementation_listeners;// Generated from YARS.g4 by ANTLR 4.7.1
-import com.github.jsonldjava.utils.Obj;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.datatypes.xsd.XSDDateTime;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ResourceFactory;
 import property_graph.YARS;
 import property_graph.edge;
 import property_graph.vertex;
 import parsers_and_listeners.cypher.yarspg.YARSpgBaseListener;
 import parsers_and_listeners.cypher.yarspg.YARSpgParser;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class YARSpgListener extends YARSpgBaseListener {
@@ -28,7 +22,6 @@ public class YARSpgListener extends YARSpgBaseListener {
 	Stack<Set<Object>> stackSet=new Stack<>();
 	Stack<HashMap<String,Object>> stackMap=new Stack<>();
 
-	//String keymap;
 
 
 	Set<Object> nestSet;
@@ -72,11 +65,9 @@ public class YARSpgListener extends YARSpgBaseListener {
 				return Float.parseFloat(number);
 			}
 			else{
-//				if (isDouble(number))
 				return Double.parseDouble(number);
 			}
 
-//			return null;
 
 
 		}
@@ -95,22 +86,11 @@ public class YARSpgListener extends YARSpgBaseListener {
 			}
 
 
-			//
-
-			//
-
-			//
-
-//			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-//			Date date = sdf.parse(ctx.getText());
-//			Calendar cal = Calendar.getInstance();
-//			cal.setTime(date);
 
 
 		}
 		else if(ctx.BOOL()!=null){
 			boolean primitive_value=Boolean.parseBoolean(ctx.getText());
-			//
 			return primitive_value;
 		}
 
@@ -195,7 +175,6 @@ public class YARSpgListener extends YARSpgBaseListener {
 		vertex = new vertex();
 		properties = new HashMap<String, Object>();
 		current=properties;
-		System.out.println(ctx.getText());
 	};
 	public void exitNode(YARSpgParser.NodeContext ctx){
 		vertex.setProperties(properties);
@@ -209,7 +188,6 @@ public class YARSpgListener extends YARSpgBaseListener {
 	};
 	public void exitEdge(YARSpgParser.EdgeContext ctx){
 		String s=ctx.getChild(0).getChild(1).getText();
-//	edge.setVertex_start(y.vertexMap.get(s.substring(1,s.length()-1)));
 
         y.vertexMap.get(s.substring(1,s.length()-1)).addOutEdge(edge);
 
@@ -219,9 +197,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 
 	int second_label=ctx.getChild(0).getChildCount();
 		s=ctx.getChild(0).getChild(second_label-2).getText();
-  //  edge.setVertex_end(y.vertexMap.get(s.substring(1,s.length()-1)));
 
-		//
 
 
     if(edge.isDirected()){
@@ -295,43 +271,7 @@ public class YARSpgListener extends YARSpgBaseListener {
 				primivite_value=primivite_value.substring(1,primivite_value.length()-1);
 			}
 
-//		if(ctx.STRING()!=null){
-//			String primivite_value=ctx.getText();
-//
 
-//
-//		}
-//		else if(ctx.NUMBER()!=null){
-//
-//			String number=ctx.getText();
-//
-//			if (isInteger(number)) {
-//				//parse Int
-//			}
-//			else if (isLong(number)) {
-//				//parse Int
-//			}
-//			else if (isFloat(number)){
-//				//parse Double
-//			}
-//			else if (isDouble(number)){
-//				//parse Double
-//			}
-//
-//
-//			double primitive_value=Double.parseDouble(ctx.getText());
-//
-//
-//
-//		}
-//		else if(ctx.DATETYPE()!=null){
-//
-//			ctx.DATETYPE();
-//		}
-//		else if(ctx.BOOL()!=null){
-//			boolean primitive_value=Boolean.parseBoolean(ctx.getText());
-//
-//		}
 
 
 
@@ -347,18 +287,13 @@ public class YARSpgListener extends YARSpgBaseListener {
 		else if(flag==2){
 
 
-		//
-		//
-		//
 			stack.lastElement().add(setValidType(ctx));
 
 
-//			nestArray.add(primivite_value);
 		}
 		else if(flag==3){
 			stackMap.lastElement().put(key,setValidType(ctx));
 
-			//nestMap.put(key,setValidType(ctx));
 
 		}
 
@@ -393,9 +328,6 @@ public class YARSpgListener extends YARSpgBaseListener {
 	public void exitSet(YARSpgParser.SetContext ctx){
 		stackSet.pop();
 
-//
-//
-//
 		i--;
 		if(i==0){
 			flag=0;
@@ -435,9 +367,6 @@ public class YARSpgListener extends YARSpgBaseListener {
 
 		nestMap = new HashMap<>();
 
-//		if(stackMap.isEmpty()){
-//
-//		}
 
 		if (current instanceof HashMap && stackMap.isEmpty()){
 			((HashMap) current).put(key,nestMap);

@@ -1,0 +1,13 @@
+# Wierzchołki
+<"o1">{"Osoba"}["imie": "Jan","wiek":20]
+<"o2">{"Osoba"}["imie": "Marek","wiek":21]
+<"o3">{"Osoba","Malzonek"}["imie": "Patryk","wiek":22]
+<"o4">{"Osoba","Malzonek"}["imiona": {"Anna","Paulina"},"wiek":23]
+<"o5">{"Osoba"}["imie": "Piotr","wiek":23]
+
+# Krawędzie
+("o1")-{"zna"}->("o2")
+("o2")-{"zna"}->("o3")
+("o3")-{"kocha"}->("o4")
+("o4")-{"kocha"}->("o3")
+("o3")-{"zna"}->("o5")
